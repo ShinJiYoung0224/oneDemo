@@ -10,6 +10,14 @@
 		fm.submit();
 	}
 </script>
+<style>
+	.submit{
+	width: 700px;
+	height: 250px;
+	background-color: skyblue;
+	font-size: 100px;
+	}
+</style>
 </head>
 <body>
 	<form id="fm" method="post" action="insert">
@@ -28,7 +36,7 @@
 				<td><input type="text" name="tel" id="tel"></td>
 			</tr>
 		</table>
-		<input type="button" value="추가" onclick="insert(this.form)">
+		<input type="button" value="▶추가하기◀" class="submit" onclick="insert(this.form)">
 	</form>
 </body>
 </html>
