@@ -5,7 +5,6 @@
 <title>Welcome NEXT</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script type="text/javascript">
-
 </script>
 
 <style>
@@ -25,22 +24,20 @@
 </style>
 </head>
 <body>
-<form id="fm" method=get>
+<form id="fm" name="fm" method="post" >
 <h1>리스트당~</h1>
 	<table>
 		<tr>
 			<td>No</td>
-			<td>email</td>
 			<td>name</td>
-			<td>tel</td>
 			<td>imgName</td>
 		</tr>
 		<tr th:each="list : ${list}">
-			<td th:text="${list.userNo}">
-			<td th:text="${list.email}">
-			<td th:text="${list.name}">
-			<td th:text="${list.tel}">
-			<td th:text="${list.imgName}">
+			<td>[[${list.userNo}]] </td>
+			<td>
+			<a th:href="@{detail(userNo=${list.userNo})}"> [[${list.name}]]</a>
+			</td>	
+			<td>[[${list.imgName}]] </td>
 		</tr>
 	</table>
 	

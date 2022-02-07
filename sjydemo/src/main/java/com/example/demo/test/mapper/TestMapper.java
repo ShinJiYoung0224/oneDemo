@@ -12,4 +12,6 @@ public interface TestMapper {
 	public List<TestModel> getList();
 	
 	public void insert(TestModel tm);
+	
+	public TestModel detail(TestModel tm);
 }

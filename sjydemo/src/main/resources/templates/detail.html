@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Welcome NEXT</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+	function insert(fm){
+		
+		fm.submit();
+	}
+</script>
+<style>
+	.submit{
+	width: 500px;
+	height: 100px;
+	background-color: orange;
+	font-size: 50px;
+	}
+	  table {
+    width: 100%;
+    border: 1px solid #444444;
+  }
+  th, td {
+    border: 1px solid #444444;
+  }
+</style>
+</head>
+<body>
+	<form id="fm" name="fm" method="post">
+		<h1 th:text="${tm.name}+ ' 상세보기'"></h1>
+		<table>
+			<tr>
+				<td th:text="${tm.name}+'의 메일주소는 '+${tm.email}">
+			</tr>
+			<tr>
+				<td th:text="${tm.name}+'의 전화번호는 '+${tm.tel}">
+			</tr>
+		</table>
+		<input type="button" value="▶리스트로~" class="submit" onclick="location.href='getList'">
+	</form>
+</body>
+</html>

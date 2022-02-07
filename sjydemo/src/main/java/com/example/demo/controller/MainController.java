@@ -18,10 +18,10 @@ import lombok.RequiredArgsConstructor;
 public class MainController {
 	
 	private final TestService testService;
+	
 
 	@RequestMapping("/main")
-	public ModelAndView main() {
-		ModelAndView mv = new ModelAndView();
+	public ModelAndView main(ModelAndView mv) {
 		mv.setViewName("test.html");
 		mv.addObject("test", "지영짱");
 		return mv;
@@ -30,27 +30,32 @@ public class MainController {
 	
 	@RequestMapping("/getList")
 //	@ResponseBody
-	public ModelAndView getList(){
+	public ModelAndView getList(ModelAndView mv){
 		List<TestModel> tm; 
 		tm = testService.getList();
-		ModelAndView mv = new ModelAndView();
 		mv.setViewName("list.html");
 		mv.addObject("list", tm);
 		return mv; 
 	}
 	
 	@RequestMapping("/insertForm")
-	public ModelAndView insertForm() {
-		ModelAndView mv = new ModelAndView();
+	public ModelAndView insertForm(ModelAndView mv) {
 		mv.setViewName("insert.html");
 		return mv;
 	}
 	
 	@RequestMapping("/insert")
-	public ModelAndView insert(TestModel tm) {
+	public ModelAndView insert(TestModel tm,ModelAndView mv) {
 		testService.insert(tm);
-		ModelAndView mv = new ModelAndView();
 		mv.setViewName("redirect:/getList");
+		return mv;
+	}
+	
+	@RequestMapping("/detail")
+	public ModelAndView detail(TestModel tm, ModelAndView mv) {
+		tm = testService.detail(tm);
+		mv.setViewName("detail.html");
+		mv.addObject("tm", tm);
 		return mv;
 	}
 }

@@ -22,5 +22,9 @@ public class TestService {
 	public void insert(TestModel tm) {
 		testMapper.insert(tm);
 	}
+	
+	public TestModel detail(TestModel tm) {
+		return testMapper.detail(tm);
+	}
 
 }
