@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.test.mapper.TestMapper">
+
+
+	<resultMap type="TestModel" id="list" autoMapping="true">
+		<result column="user_no" property="userNo"/>
+		<result column="email" property="email"/>
+		<result column="name" property="name"/>
+		<result column="tel" property="tel"/>
+		<collection column="name" property="imgName" select="getImgName" javaType="java.util.List" ofType="imaModel">
+			<result column="img_name" property="imgNmae"/>
+		</collection>
+	</resultMap>
+	
+	<select id="getList" resultMap="list">
+		SELECT *
+		FROM user
+		WHERE 1=1
+		order by user_no desc
+	</select>
+	
+	<select id="getImgName" resultType="String">
+		SELECT img_name
+		FROM user_img
+		WHERE 1=1
+		AND name = #{name}
+	</select>
+	
+	<insert id="insert" parameterType="TestModel">
+		INSERT INTO user
+		(
+		email
+		, name
+		, tel
+		)
+		VALUES
+		(
+		#{email}
+		, #{name}
+		, #{tel}
+		)
+	</insert>
+</mapper>

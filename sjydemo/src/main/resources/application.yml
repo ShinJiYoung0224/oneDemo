@@ -1,0 +1,64 @@
+##과장님
+#spring:
+#  datasource:
+#    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+#    url: jdbc:sqlserver://59.6.160.41:1433;DatabaseName=DEV_timessquare
+#    username: tov
+#    password: '@tov3250560@'
+#    platform : mssql
+#    hikari:
+#      connection-test-query: SELECT 1
+#      connection-timeout: 100000
+#      maximum-pool-size: 10
+#      minimum-idle: 5
+
+
+##경태님
+#spring:
+#  datasource:
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#    url: jdbc:mysql://packingtour.co.kr:3306/gongpe?useSSL=false&characterEncoding=UTF-8&serverTimezone=UTC
+#    username: gongpe
+#    password: rhdvP$
+#    platform : org.hibernate.dialect.MySQL5InnoDBDialect
+#    hikari:
+#      connection-test-query: SELECT 1
+#      connection-timeout: 100000
+#      maximum-pool-size: 10
+#      minimum-idle: 5
+
+#
+      #url: jdbc:h2:tcp://localhost:8080/./data/testdb
+      # 또는 jdbc:h2:tcp://localhost:9092/./data/testdb
+#
+
+
+spring:
+  datasource:
+    url: jdbc:h2:~/test
+    driverClassName: org.h2.Driver
+    username: sa
+    password:
+    initialization-mode: always
+    schema: classpath:schema.sql
+    data: classpath:data.sql
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+  sql:
+    init:
+      mode: always
+
+
+      
+mybatis:
+  configuration:
+    multiple-result-sets-enabled: false
+    map-underscore-to-camel-case: true
+    call-setters-on-nulls: true
+    jdbc-type-for-null: varchar
+    default-fetch-size: 500
+  mapper-locations:
+  - classpath:mybatis/mapper/*.xml
+  type-aliases-package: com.example.demo.test.model

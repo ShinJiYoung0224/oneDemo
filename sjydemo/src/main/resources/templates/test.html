@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Welcome NEXT</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<style>
+.listButton{
+	width: 500px;
+	height: 250px;
+	background-color: pink;
+	font-size: 100px;
+}
+</style>
+</head>
+<body>
+<form id="fm" method="get">
+<h1 th:text="${test}"></h1>
+<input type="button" value="리스트" class="listButton" onclick="location.href='getList'">
+</form>
+</body>
+<script type="text/javascript">
+/* $(function(){
+	$.ajax({
+		url: "/getList",
+		dataType : "json",
+		type : "GET",
+		success: function(result){
+			console.log(result);
+		}, 
+		error: function(request, status, error){
+			alert("처리 중 오류가 발생하였습니다.");
+		}
+	});
+}) */
+</script>
+</html>
