@@ -3,31 +3,57 @@
 <head>
 <meta charset="UTF-8">
 <title>Welcome NEXT</title>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
 	function insert(fm){
 		
 		fm.submit();
 	}
+	
+
+	function test() {
+		
+		var email = $("#email").val();
+		
+		$.ajax({
+			contentType : "application/json; charset=utf-8",
+			url : "ajaxTest",
+			dataType : "text",
+			data : {
+				email : email
+			},
+			type : "GET",
+			success : function(data) {
+				alert(data);
+			},
+			error : function(request, status, error) {
+				alert("오류발생");
+			}
+		});
+	}
 </script>
 <style>
-	.submit{
+.submit {
 	width: 500px;
 	height: 100px;
 	background-color: orange;
 	font-size: 50px;
-	}
-	  table {
-    width: 100%;
-    border: 1px solid #444444;
-  }
-  th, td {
-    border: 1px solid #444444;
-  }
+}
+
+table {
+	width: 100%;
+	border: 1px solid #444444;
+}
+
+th, td {
+	border: 1px solid #444444;
+}
 </style>
 </head>
 <body>
 	<form id="fm" name="fm" method="post">
+	<input type="hidden" name="email" id="email" th:value="${tm.email}">
 		<h1 th:text="${tm.name}+ ' 상세보기'"></h1>
 		<table>
 			<tr>
@@ -37,7 +63,9 @@
 				<td th:text="${tm.name}+'의 전화번호는 '+${tm.tel}">
 			</tr>
 		</table>
-		<input type="button" value="▶리스트로~" class="submit" onclick="location.href='getList'">
+		<input type="button" value="▶리스트로~" class="submit"
+			onclick="location.href='getList'">
+		<input type="button" value="test" onclick="test()">
 	</form>
 </body>
 </html>

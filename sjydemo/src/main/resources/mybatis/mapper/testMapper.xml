@@ -51,4 +51,12 @@
 		WHERE 1=1
 		AND user_no = #{userNo}
 	</select>
+	
+	<select id="ajaxTest" resultType="String">
+		SELECT
+		name
+		FROM user
+		WHERE 1=1
+		AND email = #{email}
+	</select>
 </mapper>

@@ -27,4 +27,7 @@ public class TestService {
 		return testMapper.detail(tm);
 	}
 
+	public String ajaxTest(TestModel tm) {
+		return testMapper.ajaxTest(tm);
+	}
 }

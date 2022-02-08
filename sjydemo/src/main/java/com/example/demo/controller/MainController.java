@@ -2,9 +2,9 @@ package com.example.demo.controller;
 
 import java.util.List;
 
-import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.example.demo.test.model.TestModel;
@@ -12,8 +12,8 @@ import com.example.demo.test.service.TestService;
 
 import lombok.RequiredArgsConstructor;
 
-//@Controller
-@RestController
+@Controller
+//@RestController
 @RequiredArgsConstructor
 public class MainController {
 	
@@ -29,7 +29,6 @@ public class MainController {
 	}
 	
 	@RequestMapping("/getList")
-//	@ResponseBody
 	public ModelAndView getList(ModelAndView mv){
 		List<TestModel> tm; 
 		tm = testService.getList();
@@ -57,5 +56,12 @@ public class MainController {
 		mv.setViewName("detail.html");
 		mv.addObject("tm", tm);
 		return mv;
+	}
+	
+	@RequestMapping("ajaxTest")
+	@ResponseBody
+	public String ajaxTest(TestModel tm) {
+		String result = testService.ajaxTest(tm);
+		return result;
 	}
 }

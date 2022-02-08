@@ -8,7 +8,6 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@NoArgsConstructor
 public class TestModel {
 
 	private String userNo;
