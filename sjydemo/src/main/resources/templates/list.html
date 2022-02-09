@@ -15,12 +15,12 @@
   th, td {
     border: 1px solid #444444;
   }
-  .insertBtn{
+/*   .insertBtn{
 	width: 500px;
 	height: 250px;
 	background-color: yellow;
 	font-size: 100px;
-}
+} */
 </style>
 </head>
 <body>
@@ -30,6 +30,8 @@
 		<tr>
 			<td>No</td>
 			<td>name</td>
+			<td>email</td>
+			<td>tel</td>
 			<td>imgName</td>
 		</tr>
 		<tr th:each="list : ${list}">
@@ -37,6 +39,8 @@
 			<td>
 			<a th:href="@{detail(userNo=${list.userNo})}"> [[${list.name}]]</a>
 			</td>	
+			<td>[[${list.email}]]</td>
+			<td>[[${list.tel}]]</td>
 			<td>[[${list.imgName}]] </td>
 		</tr>
 	</table>
