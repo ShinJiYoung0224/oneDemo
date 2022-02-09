@@ -14,5 +14,5 @@ public class TestModel {
 	private String email;
 	private String name;
 	private String tel;
-	private List<ImgModel> imgName;
+	private String imgName;
 }

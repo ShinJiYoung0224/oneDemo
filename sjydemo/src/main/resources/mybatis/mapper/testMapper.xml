@@ -8,11 +8,12 @@
 		<result column="email" property="email"/>
 		<result column="tel" property="tel"/> -->
 		<result column="name" property="name"/>
-		<collection column="name" property="imgName" select="getImgName" javaType="java.util.List" ofType="testModel">
+		<collection column="name" property="imgName" select="getImgName" javaType="String" ofType="testModel">
 			<!-- <result column="img_name" property="imgNmae"/> -->
 		</collection>
 	</resultMap>
 	
+	<!-- 리스트 가져오기 -->
 	<select id="getList" resultMap="list">
 		SELECT *
 		FROM user
@@ -20,6 +21,20 @@
 		order by user_no desc
 	</select>
 	
+	<!-- JOIN으로 리스트 가져오기 -->
+<!-- 	<select id="getList" resultType="TestModel">
+		SELECT 
+		a.user_no
+		, a.email
+		, a.name
+		, a.tel
+		, b.img_name
+		FROM user a LEFT JOIN user_img b
+		ON a.name = b.name
+		order by a.user_no desc
+	</select> -->
+	
+	<!-- image 가져오기 -->
 	<select id="getImgName" resultType="String">
 		SELECT img_name
 		FROM user_img
@@ -27,6 +42,7 @@
 		AND name = #{name}
 	</select>
 	
+	<!-- 리스트 추가 -->
 	<insert id="insert" parameterType="TestModel">
 		INSERT INTO user
 		(
@@ -42,6 +58,7 @@
 		)
 	</insert>
 	
+	<!-- 리스트 이름 클릭시 디테일 -->
 	<select id="detail" resultType="TestModel">
 		SELECT 
 		name 
@@ -52,6 +69,7 @@
 		AND user_no = #{userNo}
 	</select>
 	
+	<!-- ajax 그냥 테스트 해본거 -->
 	<select id="ajaxTest" resultType="String">
 		SELECT
 		name
