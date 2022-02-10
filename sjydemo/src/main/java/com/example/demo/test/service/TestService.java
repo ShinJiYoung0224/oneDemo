@@ -30,4 +30,8 @@ public class TestService {
 	public String ajaxTest(TestModel tm) {
 		return testMapper.ajaxTest(tm);
 	}
+	
+	public void update(TestModel tm) {
+		testMapper.update(tm);
+	}
 }

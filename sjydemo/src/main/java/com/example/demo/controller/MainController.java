@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -63,5 +64,20 @@ public class MainController {
 	public String ajaxTest(TestModel tm) {
 		String result = testService.ajaxTest(tm);
 		return result;
+	}
+	
+	@RequestMapping("update")
+	public ModelAndView update(TestModel tm, ModelAndView mv) {
+		testService.update(tm);
+		mv.addObject("tm",tm);
+		mv.setViewName("redirect:/detail?userNo="+tm.getUserNo());
+		return mv;
+	}
+	
+	@RequestMapping("updateAjax")
+	@ResponseBody
+	public String updateAjax(TestModel tm, ModelAndView mv) {
+		testService.update(tm);
+		return "OK";
 	}
 }

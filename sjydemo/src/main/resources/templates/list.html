@@ -41,7 +41,11 @@
 			</td>	
 			<td>[[${list.email}]]</td>
 			<td>[[${list.tel}]]</td>
-			<td>[[${list.imgName}]] </td>
+			<td>
+				<div th:each="imgList : ${list.imgList}">
+					imgName : [[${imgList.imgName}]]
+				</div>
+			</td>
 		</tr>
 	</table>
 	

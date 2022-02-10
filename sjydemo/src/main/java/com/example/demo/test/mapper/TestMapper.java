@@ -16,4 +16,6 @@ public interface TestMapper {
 	public TestModel detail(TestModel tm);
 	
 	public String ajaxTest(TestModel tm);
+	
+	public void update(TestModel tm);
 }

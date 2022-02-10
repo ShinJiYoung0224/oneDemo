@@ -3,7 +3,6 @@ package com.example.demo.test.model;
 import java.util.List;
 
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
@@ -14,5 +13,5 @@ public class TestModel {
 	private String email;
 	private String name;
 	private String tel;
-	private String imgName;
+	private List<ImgModel> imgList;
 }

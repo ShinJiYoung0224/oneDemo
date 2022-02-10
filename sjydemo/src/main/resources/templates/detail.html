@@ -7,7 +7,7 @@
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
 
-	function test() {
+	function ajaxTest() {
 		
 		var email = $("#email").val();
 		
@@ -27,40 +27,97 @@
 			}
 		});
 	}
+	
+	$(function(){
+
+	})
+	
+	function update(fm){
+		fm.action = "update";
+		fm.submit();
+	}
+	
+	function updateAjax(){
+		
+		var userNo = $("#userNo").val();
+		var tel = $("#tel").val();
+		var email = $("#email").val();
+		
+		$.ajax({
+			url : "updateAjax",
+			type : "post",
+			dataType : "text",
+			data : {
+				userNo : userNo,
+				tel : tel,
+				email : email
+			},
+			success : function(data){
+				if(data == "OK"){
+					alert("수정 완료");
+				}else{
+					alert("수정 실패");
+				}
+			},
+			error : function(request, status, error){
+				alert("수정 실패");
+			}
+		});
+	}
+		
+		
+	
+	
+	
 </script>
 <style>
-.submit {
+/* .submit {
 	width: 500px;
 	height: 100px;
 	background-color: orange;
 	font-size: 50px;
-}
+} */
 
 table {
-	width: 100%;
+	width: 500px;
 	border: 1px solid #444444;
 }
 
-th, td {
+td {
+	width: 300px;
 	border: 1px solid #444444;
+}
+
+.name {
+	width: 200px;
 }
 </style>
 </head>
 <body>
 	<form id="fm" name="fm" method="post">
-	<input type="hidden" name="email" id="email" th:value="${tm.email}">
-		<h1 th:text="${tm.name}+ ' 상세보기'"></h1>
+	<input type="hidden" name="userNo" id="userNo" th:value="${tm.userNo}">
+	<input type="hidden" name="name" id="name" th:value="${tm.name}">
+		<h2 th:text="${tm.name}+ ' 상세보기'"></h2>
 		<table>
 			<tr>
-				<td th:text="${tm.name}+'의 메일주소는 '+${tm.email}">
+				<!-- <td th:text="${tm.name}+'의 메일주소는 '+${tm.email}"> -->
+				<td>[[${tm.name}]]님의 메일주소는
+					 <input type="text" name="email" id="email" class="input" th:value="${tm.email}">
+				</td>
 			</tr>
 			<tr>
-				<td th:text="${tm.name}+'의 전화번호는 '+${tm.tel}">
+			</tr>
+			<tr>
+				<!-- <td th:text="${tm.name}+'의 전화번호는 '+${tm.tel}"> -->
+				<td>[[${tm.name}]]님의 전화번호는 
+					<input type="text" name="tel" id="tel" class="input" th:value="${tm.tel}"> 
+				</td>
 			</tr>
 		</table>
-		<input type="button" value="▶리스트로~" class="submit"
-			onclick="location.href='getList'">
-		<input type="button" value="test" onclick="test()">
+		<input type="button" value="▶리스트로~" class="submit" onclick="location.href='getList'">
+		<input type="button" value="test" onclick="ajaxTest()">
+		<!-- <input type="button" value="수정하기" onclick="update(this.form)"> -->
+		<input type="button" value="수정하기" onclick="updateAjax()">
 	</form>
 </body>
 </html>

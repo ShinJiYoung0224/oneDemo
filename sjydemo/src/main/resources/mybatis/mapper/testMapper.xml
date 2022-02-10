@@ -3,13 +3,15 @@
 <mapper namespace="com.example.demo.test.mapper.TestMapper">
 
 
-	<resultMap type="TestModel" id="list" autoMapping="true">
-		<!-- <result column="user_no" property="userNo"/>
+	<resultMap type="TestModel" id="list">
+	<!--<result column="user_no" property="userNo"/>
 		<result column="email" property="email"/>
 		<result column="tel" property="tel"/> -->
 		<result column="name" property="name"/>
-		<collection column="name" property="imgName" select="getImgName" javaType="String" ofType="testModel">
-			<!-- <result column="img_name" property="imgNmae"/> -->
+		<collection column="name" property="imgList" select="getImg" javaType="java.util.List" ofType="imgModel" >
+			<result column="img_no" property="imgNo" />
+			<result column="name" property="name" />
+			<result column="img_name" property="imgNmae"/>
 		</collection>
 	</resultMap>
 	
@@ -34,9 +36,9 @@
 		order by a.user_no desc
 	</select> -->
 	
-	<!-- image 가져오기 -->
-	<select id="getImgName" resultType="String">
-		SELECT img_name
+	<!-- imageList 가져오기 -->
+	<select id="getImg" resultType="imgModel">
+		SELECT *
 		FROM user_img
 		WHERE 1=1
 		AND name = #{name}
@@ -61,9 +63,7 @@
 	<!-- 리스트 이름 클릭시 디테일 -->
 	<select id="detail" resultType="TestModel">
 		SELECT 
-		name 
-		, email
-		, tel
+		*
 		FROM user
 		WHERE 1=1
 		AND user_no = #{userNo}
@@ -77,4 +77,12 @@
 		WHERE 1=1
 		AND email = #{email}
 	</select>
+	
+	<!-- user 정보 수정 --> 
+	<update id="update" parameterType="TestModel">
+		UPDATE user
+		SET email = #{email}
+		, tel = #{tel}
+		WHERE user_no = #{userNo}
+	</update>
 </mapper>
