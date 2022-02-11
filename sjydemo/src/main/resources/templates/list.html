@@ -2,9 +2,14 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Welcome NEXT</title>
+<title>지영짱</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script type="text/javascript">
+
+	function deleteUser(fm){
+		fm.action = "deleteUser";
+		fm.submit();
+	}
 </script>
 
 <style>
@@ -16,7 +21,7 @@
     border: 1px solid #444444;
     padding:5px 0 5px 0
   }
-  .insertBtn{
+  .btn{
 	width: 100px;
 	height: 40px;
 	background-color: yellow;
@@ -29,6 +34,7 @@
 <h1>리스트당~</h1>
 	<table>
 		<tr>
+			<td>del</td>
 			<td>No</td>
 			<td>name</td>
 			<td>email</td>
@@ -36,6 +42,7 @@
 			<td>imgList</td>
 		</tr>
 		<tr th:each="list : ${list}">
+			<td><input type="checkbox" name="del" th:value="${list.userNo}"></td>
 			<td>[[${list.userNo}]] </td>
 			<td>
 			<a th:href="@{detail(userNo=${list.userNo})}"> [[${list.name}]]</a>
@@ -52,7 +59,8 @@
 		</tr>
 	</table>
 	
-	<input type="button" value="★추가★" class="insertBtn" onclick="location.href='insertForm'">
+	<input type="button" value="★추가★" class="btn" onclick="location.href='insertForm'">
+	<input type="button" value="선택삭제!" class="btn" onclick="deleteUser(this.form)">
 </form>
 
 </body>

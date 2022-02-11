@@ -2,10 +2,10 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Welcome NEXT</title>
+<title>지영짱</title>
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script>
+<script th:inline="javascript">
 
 	function ajaxTest() {
 		
@@ -28,8 +28,10 @@
 	}
 	
 	$(function(){
-
-	})
+		
+	});
+		
+	
 	
 	function update(fm){
 		fm.action = "update";
@@ -94,22 +96,23 @@ td {
 </head>
 <body>
 	<form id="fm" name="fm" method="post">
-	<input type="hidden" name="userNo" id="userNo" th:value="${tm.userNo}">
-	<input type="hidden" name="name" id="name" th:value="${tm.name}">
-		<h2 th:text="${tm.name}+ ' 상세보기'"></h2>
+	<input type="hidden" name="userNo" id="userNo" th:value="${um.userNo}">
+	<input type="hidden" name="name" id="name" th:value="${um.name}">
+	<input type="hidden" name="updateYn" id="updateYn" th:value="${updateYn}">
+		<h2 th:text="${um.name}+ ' 상세보기'"></h2>
 		<table>
 			<tr>
-				<!-- <td th:text="${tm.name}+'의 메일주소는 '+${tm.email}"> -->
-				<td>[[${tm.name}]]님의 메일주소는
-					 <input type="text" name="email" id="email" class="input" th:value="${tm.email}">
+				<!-- <td th:text="${um.name}+'의 메일주소는 '+${um.email}"> -->
+				<td>[[${um.name}]]님의 메일주소는
+					 <input type="text" name="email" id="email" class="input" th:value="${um.email}">
 				</td>
 			</tr>
 			<tr>
 			</tr>
 			<tr>
-				<!-- <td th:text="${tm.name}+'의 전화번호는 '+${tm.tel}"> -->
-				<td>[[${tm.name}]]님의 전화번호는 
-					<input type="text" name="tel" id="tel" class="input" th:value="${tm.tel}"> 
+				<!-- <td th:text="${um.name}+'의 전화번호는 '+${um.tel}"> -->
+				<td>[[${um.name}]]님의 전화번호는 
+					<input type="text" name="tel" id="tel" class="input" th:value="${um.tel}"> 
 				</td>
 			</tr>
 		</table>

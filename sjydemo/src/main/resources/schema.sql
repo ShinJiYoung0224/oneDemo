@@ -12,6 +12,7 @@ DROP TABLE IF EXISTS user_img;
 
 CREATE TABLE user_img(
 img_no INT NOT NULL AUTO_INCREMENT,
+user_no INT NOT NULL,
 name VARCHAR(30),
 img_name VARCHAR(300),
 PRIMARY KEY (img_no)

@@ -7,9 +7,9 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class TestModel {
+public class UserModel {
 
-	private String userNo;
+	private int userNo;
 	private String email;
 	private String name;
 	private String tel;

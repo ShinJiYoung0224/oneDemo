@@ -7,13 +7,17 @@ INSERT INTO `user` (`email`, `name`, `tel`) VALUES
 ('jjj@hanmail.net', '정대원', '010-0000-0006'),
 ('kk@naver.com', '강경태', '010-0000-1111');
 
-INSERT INTO `user_img` (`name` , `img_name`)
-VALUES ('김종학', '1111'),
-('김성현','ksh_img'),
-('이원희','lwh_img'),
-('김종학','2222'),
-('강경태','aaaa'),
-('정대원','ccc'),
-('김환영','ddddd'),
-('이현주','lllll'),
-('강경태','bbbbbb');
+INSERT INTO `user_img` (`user_no`, `name` , `img_name`)
+VALUES (1,'김종학', '1111'),
+(4,'김성현','ksh_img'),
+(5,'이원희','lwh_img'),
+(1,'김종학','2222'),
+(7,'강경태','aaaa'),
+(6,'정대원','ccc'),
+(6,'정대원','asdwwww'),
+(3,'김환영','ddddd'),
+(3,'김환영','dwqewqwq'),
+(2,'이현주','lllll'),
+(7,'강경태','bbbbbb'),
+(7,'강경태','adqwq'),
+(7,'강경태','asdsada');
