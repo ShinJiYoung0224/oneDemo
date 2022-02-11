@@ -10,12 +10,13 @@
 
 <style>
   table {
-    width: 100%;
+    width: 1000px;
     border: 1px solid #444444;
   }
   th, td {
     border: 1px solid #444444;
-    padding:5px 0 5px 0
+    padding:5px 0 5px 0;
+    width: 300px;
   }
   .btn{
 	width: 100px;
@@ -30,13 +31,22 @@
 <h1>이미지 리스트당~</h1>
 	<table>
 		<tr>
+			<td>userInfo</td>
 			<td>imgNo</td>
 			<td>img_name</td>
 		</tr>
-		<!-- <tr th:each="imgList : ${imgList}">
+		<tr th:each="imgList : ${imgList}">
+			<td>
+				<div th:each="userList : ${imgList.user}">
+					userNo : [[${userList.userNo}]] <br>
+					name : [[${userList.name}]] <br>
+					email : [[${userList.email}]]<br>
+					tel : [[${userList.tel}]]
+				</div>
+			</td>
 			<td>[[${imgList.imgNo}]] </td>
-			<td>[[${imgList.img_name}]] </td>
-		</tr> -->
+			<td>[[${imgList.imgName}]] </td>
+		</tr>
 	</table>
 </form>
 

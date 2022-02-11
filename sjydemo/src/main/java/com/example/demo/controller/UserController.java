@@ -97,8 +97,8 @@ public class UserController {
 	public ModelAndView getImgList(ModelAndView mv) {
 		List<ImgModel> im;
 		im = userService.getImgList();
-		mv.addObject("imgList", im);
 		mv.setViewName("imgList.html");
+		mv.addObject("imgList", im);
 		return mv;
 	}
 }
