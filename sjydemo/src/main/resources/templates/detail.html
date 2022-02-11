@@ -12,13 +12,12 @@
 		var email = $("#email").val();
 		
 		$.ajax({
-			contentType : "application/json; charset=utf-8",
 			url : "ajaxTest",
 			dataType : "text",
+			type : "GET",
 			data : {
 				email : email
 			},
-			type : "GET",
 			success : function(data) {
 				alert(data);
 			},
@@ -71,12 +70,12 @@
 	
 </script>
 <style>
-/* .submit {
-	width: 500px;
-	height: 100px;
+ .btn {
+	width: 200px;
+	height: 30px;
 	background-color: orange;
-	font-size: 50px;
-} */
+	font-size: 17px;
+}
 
 table {
 	width: 500px;
@@ -114,10 +113,10 @@ td {
 				</td>
 			</tr>
 		</table>
-		<input type="button" value="▶리스트로~" class="submit" onclick="location.href='getList'">
-		<input type="button" value="test" onclick="ajaxTest()">
-		<!-- <input type="button" value="수정하기" onclick="update(this.form)"> -->
-		<input type="button" value="수정하기" onclick="updateAjax()">
+		<input type="button" value="▶리스트로~" class="btn" onclick="location.href='getList'">
+		<input type="button" value="메일로 이름 ajaxTest" class="btn" onclick="ajaxTest()">
+		<input type="button" value="수정하기(submit)" class="btn" onclick="update(this.form)">
+		<input type="button" value="수정하기(ajax)" class="btn" onclick="updateAjax()">
 	</form>
 </body>
 </html>

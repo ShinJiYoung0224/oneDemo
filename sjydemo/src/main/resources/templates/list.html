@@ -14,13 +14,14 @@
   }
   th, td {
     border: 1px solid #444444;
+    padding:5px 0 5px 0
   }
-/*   .insertBtn{
-	width: 500px;
-	height: 250px;
+  .insertBtn{
+	width: 100px;
+	height: 40px;
 	background-color: yellow;
-	font-size: 100px;
-} */
+	font-size: 18px;
+} 
 </style>
 </head>
 <body>
@@ -32,7 +33,7 @@
 			<td>name</td>
 			<td>email</td>
 			<td>tel</td>
-			<td>imgName</td>
+			<td>imgList</td>
 		</tr>
 		<tr th:each="list : ${list}">
 			<td>[[${list.userNo}]] </td>
@@ -42,7 +43,8 @@
 			<td>[[${list.email}]]</td>
 			<td>[[${list.tel}]]</td>
 			<td>
-				<div th:each="imgList : ${list.imgList}">
+				<div th:each="imgList, i : ${list.imgList}">
+					[[${i.index +1}]]) 
 					imgNo : [[${imgList.imgNo}]] ,
 					imgName : [[${imgList.imgName}]]
 				</div>

@@ -21,13 +21,12 @@ public class MainController {
 	private final TestService testService;
 	
 
-//	@RequestMapping("/test")
-//	public ModelAndView main(ModelAndView mv) {
-//		mv.setViewName("test.html");
-//		mv.addObject("test", "지영짱");
-//		return mv;
-////		return "test.html";
-//	}
+	@RequestMapping("/test")
+	public ModelAndView main(ModelAndView mv) {
+		mv.setViewName("index.html");
+		return mv;
+//		return "test.html";
+	}
 	
 	@RequestMapping("/getList")
 	public ModelAndView getList(ModelAndView mv){
