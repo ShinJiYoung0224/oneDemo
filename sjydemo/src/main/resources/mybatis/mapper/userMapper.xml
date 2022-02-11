@@ -8,17 +8,31 @@
 		<result column="email" property="email"/>
 		<result column="tel" property="tel"/> -->
 		<result column="user_no" property="userNo"/> <!-- 대원 - 다른건 없어도 되는데 이건 왜 있어야하는건지? 없으면 userNo가 안 들어옴.... 왜일까  -->
-		<collection column="user_no" property="imgList" select="getImg" javaType="java.util.List" ofType="ImgModel" > <!-- 대원 - 사용하는 이유 다시 한번.. association도.. -->
+		<collection column="user_no" property="imgList" select="getImg" javaType="java.util.List" ofType="ImgModel" > <!-- 대원 - 사용하는 이유 다시 한번..? -->
 			<!-- <result column="img_no" property="imgNo" />
 			<result column="name" property="name" />
 			<result column="img_name" property="imgNmae"/> -->
 		</collection>
 	</resultMap>
 	
-	<!-- <resultMap type="ImgModel" id="assoTest">
-		<result column="name" property="name" />
-		<association property=""></association>
-	</resultMap> -->
+	<resultMap type="ImgModel" id="imgList">
+		<result column="user_no" property="user.userNo" />
+		<association column="user_no" property="user" javaType="UserModel" select="getUserList"></association>
+	</resultMap>
+	
+	<!-- asso 이미지로 유저 가져오기 -->
+	<select id="getImgList" resultMap="imgList">
+		SELECT *
+		FROM user_img
+		order by user_no desc
+	</select>
+	
+	<select id="getUserList" resultType="UserModel">
+		SELECT *
+		FROM user
+		WHERE 1=1
+		AND user_no = #{userNo}
+	</select>
 	
 	<!-- 리스트 가져오기 -->
 	<select id="getList" resultMap="list">
@@ -27,6 +41,7 @@
 		WHERE 1=1
 		order by user_no desc
 	</select>
+	
 	
 	<!-- JOIN으로 리스트 가져오기 -->
 <!-- 	<select id="getList" resultType="UserModel">

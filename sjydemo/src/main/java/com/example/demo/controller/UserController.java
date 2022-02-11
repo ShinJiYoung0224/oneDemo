@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.example.demo.test.model.ImgModel;
 import com.example.demo.test.model.UserModel;
 import com.example.demo.test.service.UserService;
 
@@ -90,5 +91,14 @@ public class UserController {
 			userService.deleteUser(um);			
 		}
 		return "redirect:/getList";
+	}
+	
+	@RequestMapping("getImgList")
+	public ModelAndView getImgList(ModelAndView mv) {
+		List<ImgModel> im;
+		im = userService.getImgList();
+		mv.addObject("imgList", im);
+		mv.setViewName("imgList.html");
+		return mv;
 	}
 }

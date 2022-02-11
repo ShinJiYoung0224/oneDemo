@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.test.mapper.UserMapper;
+import com.example.demo.test.model.ImgModel;
 import com.example.demo.test.model.UserModel;
 
 import lombok.RequiredArgsConstructor;
@@ -37,5 +38,9 @@ public class UserService {
 	
 	public void deleteUser(UserModel um) {
 		userMapper.deleteUser(um);
+	}
+	
+	public List<ImgModel> getImgList(){
+		return userMapper.getImgList();
 	}
 }
