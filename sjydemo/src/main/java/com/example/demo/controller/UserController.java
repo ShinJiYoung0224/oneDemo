@@ -1,10 +1,14 @@
 package com.example.demo.controller;
 
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
@@ -53,11 +57,18 @@ public class UserController {
 	}
 	
 	@RequestMapping("/detail")
-	public ModelAndView detail(UserModel um, ModelAndView mv) {
+	public String detail(UserModel um, Model model, HttpServletRequest request, HttpServletResponse response) throws IOException {
 		um = userService.detail(um);
-		mv.setViewName("detail.html");
-		mv.addObject("um", um);
-		return mv;
+		model.addAttribute("um", um);
+		
+		String referer = request.getHeader("referer");
+		if(referer.indexOf("detail") > -1) {
+			response.setContentType("text/html; charset=euc-kr");
+			PrintWriter out = response.getWriter();
+			out.println("<script>alert('수정 완료'); </script>");
+			out.flush();
+		}
+		return "detail.html";
 	}
 	
 	@RequestMapping("ajaxTest")
@@ -71,7 +82,6 @@ public class UserController {
 	public ModelAndView update(UserModel um, ModelAndView mv) {
 		userService.update(um);
 		mv.addObject("um",um);
-		mv.addObject("updateYn", "OK");
 		mv.setViewName("redirect:/detail?userNo="+um.getUserNo());
 		return mv;
 	}
