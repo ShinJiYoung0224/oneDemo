@@ -22,6 +22,4 @@ public interface UserMapper {
 	
 	public void deleteUser(UserModel um);
 	
-	public List<ImgModel> getImgList();
-	
 }

@@ -39,8 +39,4 @@ public class UserService {
 	public void deleteUser(UserModel um) {
 		userMapper.deleteUser(um);
 	}
-	
-	public List<ImgModel> getImgList(){
-		return userMapper.getImgList();
-	}
 }

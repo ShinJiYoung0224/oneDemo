@@ -2,30 +2,13 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.demo.test.mapper.UserMapper">
 
-	<!-- 대원 - 오토맵핑 없어도 <result> 안 써도 동작 되는 이유... --> 
 	<resultMap type="UserModel" id="list">
-	<!--<result column="name" property="name"/>
-		<result column="email" property="email"/>
-		<result column="tel" property="tel"/> -->
-		<result column="user_no" property="userNo"/> <!-- 대원 - 다른건 없어도 되는데 이건 왜 있어야하는건지? 없으면 userNo가 안 들어옴.... 왜일까  -->
-		<collection column="user_no" property="imgList" select="getImg" javaType="java.util.List" ofType="ImgModel" > <!-- 대원 - 사용하는 이유 다시 한번..? -->
+		<id property="userNo" column="user_no"/>
+		<collection column="user_no" property="imgList" select="com.example.demo.test.mapper.ImgMapper.getImg" javaType="java.util.List" ofType="ImgModel" >
 			<!-- <result column="img_no" property="imgNo" />
-			<result column="name" property="name" />
 			<result column="img_name" property="imgNmae"/> -->
 		</collection>
 	</resultMap>
-	
-	<resultMap type="ImgModel" id="imgList">
-		<result column="user_no" property="user.userNo" />
-		<association column="user_no" property="user" javaType="UserModel" select="getUserList"></association>
-	</resultMap>
-	
-	<!-- asso 이미지로 유저 가져오기 -->
-	<select id="getImgList" resultMap="imgList">
-		SELECT *
-		FROM user_img
-		order by user_no desc
-	</select>
 	
 	<select id="getUserList" resultType="UserModel">
 		SELECT *
@@ -108,7 +91,7 @@
 	</update>
 	
 	<!-- user 삭제 -->
-	<delete id="deleteUser" parameterType="UserModel">   <!-- 대원 - 이렇게 말고 조인해서 삭제하는법...? -->
+	<delete id="deleteUser" parameterType="UserModel">
 		DELETE 
 		FROM user
 		WHERE 1=1

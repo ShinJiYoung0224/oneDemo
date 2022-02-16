@@ -15,6 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.example.demo.test.model.ImgModel;
 import com.example.demo.test.model.UserModel;
+import com.example.demo.test.service.ImgService;
 import com.example.demo.test.service.UserService;
 
 import lombok.RequiredArgsConstructor;
@@ -25,6 +26,7 @@ import lombok.RequiredArgsConstructor;
 public class UserController {
 	
 	private final UserService userService;
+	private final ImgService imgService;
 	
 
 	@RequestMapping("/test")
@@ -106,7 +108,7 @@ public class UserController {
 	@RequestMapping("getImgList")
 	public ModelAndView getImgList(ModelAndView mv) {
 		List<ImgModel> im;
-		im = userService.getImgList();
+		im = imgService.getImgList();
 		mv.setViewName("imgList.html");
 		mv.addObject("imgList", im);
 		return mv;
