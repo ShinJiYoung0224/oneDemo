@@ -16,24 +16,24 @@ public class UserService {
 	
 	private final UserMapper userMapper;
 	
-	public List<UserModel> getList(){
-		return userMapper.getList();
+	public List<UserModel> getUserList(){
+		return userMapper.getUserList();
 	}
 	
-	public void insert(UserModel um) {
-		userMapper.insert(um);
+	public void insertUser(UserModel um) {
+		userMapper.insertUser(um);
 	}
 	
-	public UserModel detail(UserModel um) {
-		return userMapper.detail(um);
+	public UserModel detailUser(UserModel um) {
+		return userMapper.detailUser(um);
 	}
 
 	public String ajaxTest(UserModel um) {
 		return userMapper.ajaxTest(um);
 	}
 	
-	public void update(UserModel um) {
-		userMapper.update(um);
+	public void updateUser(UserModel um) {
+		userMapper.updateUser(um);
 	}
 	
 	public void deleteUser(UserModel um) {

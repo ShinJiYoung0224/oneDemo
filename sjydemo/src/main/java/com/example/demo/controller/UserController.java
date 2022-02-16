@@ -39,7 +39,7 @@ public class UserController {
 	@RequestMapping("/getList")
 	public ModelAndView getList(ModelAndView mv){
 		List<UserModel> um; 
-		um = userService.getList();
+		um = userService.getUserList();
 		mv.setViewName("list.html");
 		mv.addObject("list", um);
 		return mv; 
@@ -52,15 +52,15 @@ public class UserController {
 	}
 	
 	@RequestMapping("/insert")
-	public ModelAndView insert(UserModel um,ModelAndView mv) {
-		userService.insert(um);
+	public ModelAndView insertUser(UserModel um,ModelAndView mv) {
+		userService.insertUser(um);
 		mv.setViewName("redirect:/getList");
 		return mv;
 	}
 	
 	@RequestMapping("/detail")
-	public String detail(UserModel um, Model model, HttpServletRequest request, HttpServletResponse response) throws IOException {
-		um = userService.detail(um);
+	public String detailUser(UserModel um, Model model, HttpServletRequest request, HttpServletResponse response) throws IOException {
+		um = userService.detailUser(um);
 		model.addAttribute("um", um);
 		
 		String referer = request.getHeader("referer");
@@ -80,9 +80,9 @@ public class UserController {
 		return result;
 	}
 	
-	@RequestMapping("update")
-	public ModelAndView update(UserModel um, ModelAndView mv) {
-		userService.update(um);
+	@RequestMapping("updateUser")
+	public ModelAndView updateUser(UserModel um, ModelAndView mv) {
+		userService.updateUser(um);
 		mv.addObject("um",um);
 		mv.setViewName("redirect:/detail?userNo="+um.getUserNo());
 		return mv;
@@ -91,7 +91,7 @@ public class UserController {
 	@RequestMapping("updateAjax")
 	@ResponseBody
 	public String updateAjax(UserModel um, ModelAndView mv) {
-		userService.update(um);
+		userService.updateUser(um);
 		return "OK";
 	}
 	

@@ -10,15 +10,15 @@ import com.example.demo.test.model.UserModel;
 @Mapper
 public interface UserMapper {
 
-	public List<UserModel> getList();
+	public List<UserModel> getUserList();
 	
-	public void insert(UserModel um);
+	public void insertUser(UserModel um);
 	
-	public UserModel detail(UserModel um);
+	public UserModel detailUser(UserModel um);
 	
 	public String ajaxTest(UserModel um);
 	
-	public void update(UserModel um);
+	public void updateUser(UserModel um);
 	
 	public void deleteUser(UserModel um);
 	

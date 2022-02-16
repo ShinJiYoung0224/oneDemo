@@ -2,23 +2,23 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.demo.test.mapper.UserMapper">
 
-	<resultMap type="UserModel" id="list">
-		<id property="userNo" column="user_no"/>
-		<collection column="user_no" property="imgList" select="com.example.demo.test.mapper.ImgMapper.getImg" javaType="java.util.List" ofType="ImgModel" >
-			<!-- <result column="img_no" property="imgNo" />
-			<result column="img_name" property="imgNmae"/> -->
+	<resultMap type="UserModel" id="userList">
+		<id property="userNo" column="user_no"/> <!-- <result/>써도 결과는 같지만 키가 될 값은 id로 사용하여 구분해주는게 좋은 것 같음 -->
+		<!-- 각 유저들의 이미지리스트를 가져오기 (1:M) -->
+		<collection column="user_no" property="imgList" select="com.example.demo.test.mapper.ImgMapper.getImgInfoList" javaType="java.util.List" ofType="ImgModel" >
 		</collection>
 	</resultMap>
 	
-	<select id="getUserList" resultType="UserModel">
+	<!-- 유저정보 가져오기 -->
+	<select id="getUserInfo" resultType="UserModel">
 		SELECT *
 		FROM user
 		WHERE 1=1
 		AND user_no = #{userNo}
 	</select>
 	
-	<!-- 리스트 가져오기 -->
-	<select id="getList" resultMap="list">
+	<!-- 유저 리스트 가져오기 -->
+	<select id="getUserList" resultMap="userList">
 		SELECT *
 		FROM user
 		WHERE 1=1
@@ -40,15 +40,15 @@
 	</select> -->
 	
 	<!-- imageList 가져오기 -->
-	<select id="getImg" resultType="imgModel">
+	<select id="getImgList" resultType="imgModel">
 		SELECT *
 		FROM user_img
 		WHERE 1=1
 		AND user_no = #{userNo}
 	</select>
 	
-	<!-- 리스트 추가 -->
-	<insert id="insert" parameterType="UserModel">
+	<!-- 유저 리스트 추가 -->
+	<insert id="insertUser" parameterType="UserModel">
 		INSERT INTO user
 		(
 		email
@@ -64,7 +64,7 @@
 	</insert>
 	
 	<!-- 리스트 이름 클릭시 디테일 -->
-	<select id="detail" resultType="UserModel">
+	<select id="detailUser" resultType="UserModel">
 		SELECT 
 		*
 		FROM user
@@ -82,7 +82,7 @@
 	</select>
 	
 	<!-- user 정보 수정 --> 
-	<update id="update" parameterType="UserModel">
+	<update id="updateUser" parameterType="UserModel">
 		UPDATE user
 		SET email = #{email}
 		, tel = #{tel}

@@ -2,20 +2,21 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.demo.test.mapper.ImgMapper">
 	
-	<resultMap type="ImgModel" id="imgList">
+	<resultMap type="ImgModel" id="getImg">
 		<result column="user_no" property="user.userNo" />
-		<association column="user_no" property="user" javaType="UserModel" select="com.example.demo.test.mapper.UserMapper.getUserList"></association>
+		<!-- 각 이미지의 유저정보 가져오기 (1:1) -->
+		<association column="user_no" property="user" javaType="UserModel" select="com.example.demo.test.mapper.UserMapper.getUserInfo"></association>
 	</resultMap>
 	
-	<!-- asso 이미지로 유저 가져오기 -->
-	<select id="getImgList" resultMap="imgList">
+	<!-- 이미지 리스트 가져오기 -->
+	<select id="getImgList" resultMap="getImg">
 		SELECT *
 		FROM user_img
 		order by user_no desc
 	</select>
 	
 	<!-- imageList 가져오기 -->
-	<select id="getImg" resultType="imgModel">
+	<select id="getImgInfoList" resultType="imgModel">
 		SELECT *
 		FROM user_img
 		WHERE 1=1
