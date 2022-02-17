@@ -31,7 +31,6 @@ public class UserController {
 
 	@RequestMapping("/test")
 	public ModelAndView main(ModelAndView mv) {
-		System.out.println("aㅁaa");
 		mv.setViewName("index.html");
 		return mv;
 //		return "test.html";
