@@ -2,20 +2,39 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.demo.test.mapper.ImgMapper">
 	
+	
+	<!-- select association 사용해서 이미지에 해당하는 유저정보 가져오기 -->
+	<!-- 각 이미지의 유저정보 가져오기 (1:1) -->
 	<resultMap type="ImgModel" id="getImg">
-		<result column="user_no" property="user.userNo" />
-		<!-- 각 이미지의 유저정보 가져오기 (1:1) -->
-		<association column="user_no" property="user" javaType="UserModel" select="com.example.demo.test.mapper.UserMapper.getUserInfo"></association>
+		<association column="user_no" property="userInfo" javaType="UserModel" select="com.example.demo.test.mapper.UserMapper.getUserInfo"></association>
 	</resultMap>
 	
-	<!-- 이미지 리스트 가져오기 -->
+	<!-- join association 사용해서 이미지에 해당하는 유저정보 가져오기 -->
+	<!-- 각 이미지의 유저정보 가져오기 (1:1) -->
+<!-- 	<resultMap type="ImgModel" id="getImg" autoMapping="true">
+		<association column="user_no" property="userInfo" javaType="UserModel" autoMapping="true"></association>
+	</resultMap> -->
+	
+	<!-- select association 사용해서 이미지 리스트 가져오기 -->
 	<select id="getImgList" resultMap="getImg">
 		SELECT *
 		FROM user_img
 		order by user_no desc
 	</select>
+	<!-- join association 사용해서 이미지에 해당하는 유저정보 가져오기 -->
+<!-- 	<select id="getImgList" resultMap="getImg">
+		SELECT ui.img_no
+		,ui.img_name
+		,u.user_no
+		,u.name
+		,u.email
+		,u.tel
+		FROM user_img ui LEFT JOIN user u
+		ON ui.user_no = u.user_no
+		order by user_no desc
+	</select> -->
 	
-	<!-- imageList 가져오기 -->
+	<!-- 유저에 해당하는 이미지 리스트 가져오기 -->
 	<select id="getImgInfoList" resultType="imgModel">
 		SELECT *
 		FROM user_img

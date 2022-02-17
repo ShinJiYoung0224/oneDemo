@@ -10,6 +10,6 @@ import lombok.Setter;
 public class ImgModel {
 
 	private int imgNo;
-	private UserModel user;
+	private UserModel userInfo;
 	private String imgName;
 }

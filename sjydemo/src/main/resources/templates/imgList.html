@@ -32,21 +32,21 @@
 <input type="button" value="유저리스트로~" class="btn" onclick="location.href='getList'">
 	<table>
 		<tr>
-			<td>userInfo</td>
 			<td>imgNo</td>
 			<td>img_name</td>
+			<td>userInfo</td>
 		</tr>
 		<tr th:each="imgList : ${imgList}">
+			<td>[[${imgList.imgNo}]] </td>
+			<td>[[${imgList.imgName}]] </td>
 			<td>
-				<div th:each="userList : ${imgList.user}">
+				<div th:each="userList : ${imgList.userInfo}">
 					userNo : [[${userList.userNo}]] <br>
 					name : [[${userList.name}]] <br>
 					email : [[${userList.email}]]<br>
 					tel : [[${userList.tel}]]
 				</div>
 			</td>
-			<td>[[${imgList.imgNo}]] </td>
-			<td>[[${imgList.imgName}]] </td>
 		</tr>
 	</table>
 </form>
