@@ -2,12 +2,42 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.demo.test.mapper.UserMapper">
 
+
+		<!-- select collection 이용해서 유저 리스트 가져오기 -->
 	<resultMap type="UserModel" id="userList">
-		<id property="userNo" column="user_no"/> <!-- <result/>써도 결과는 같지만 키가 될 값은 id로 사용하여 구분해주는게 좋은 것 같음 -->
+		<id property="userNo" column="user_no"/> <!--<result>태그를 써도 결과는 같지만 키가 될 값은 id로 사용하여 구분해주는게 좋은 것 같음 -->
 		<!-- 각 유저들의 이미지리스트를 가져오기 (1:M) -->
 		<collection column="user_no" property="imgList" select="com.example.demo.test.mapper.ImgMapper.getImgInfoList" javaType="java.util.List" ofType="ImgModel" >
 		</collection>
 	</resultMap>
+	
+	<!-- join collection 이용해서 유저 리스트 가져오기 -->
+<!-- 	<resultMap type="UserModel" id="userList" autoMapping="true">
+		<id property="userNo" column="user_no"/>
+		<collection property="imgList" ofType="ImgModel" javaType="java.util.List" autoMapping="true"></collection>
+	</resultMap> -->
+	
+	<!-- select collection 이용해서 유저 리스트 가져오기 -->
+	<select id="getUserList" resultMap="userList">
+		SELECT *
+		FROM user
+		WHERE 1=1
+		order by user_no desc
+	</select>
+	
+	<!-- join collection 이용해서 유저 리스트 가져오기 -->
+<!-- 	<select id="getUserList" resultMap="userList">
+		SELECT u.user_no
+		,u.name
+		,u.email
+		,u.tel
+		,ui.img_name
+		FROM user u LEFT JOIN user_img ui
+		ON u.user_no = ui.user_no
+		WHERE 1=1
+		order by user_no desc
+	</select> -->
+	
 	
 	<!-- 유저정보 가져오기 -->
 	<select id="getUserInfo" resultType="UserModel">
@@ -17,27 +47,6 @@
 		AND user_no = #{userNo}
 	</select>
 	
-	<!-- 유저 리스트 가져오기 -->
-	<select id="getUserList" resultMap="userList">
-		SELECT *
-		FROM user
-		WHERE 1=1
-		order by user_no desc
-	</select>
-	
-	
-	<!-- JOIN으로 리스트 가져오기 -->
-<!-- 	<select id="getList" resultType="UserModel">
-		SELECT 
-		a.user_no
-		, a.email
-		, a.name
-		, a.tel
-		, b.img_name
-		FROM user a LEFT JOIN user_img b
-		ON a.name = b.name
-		order by a.user_no desc
-	</select> -->
 	
 	<!-- imageList 가져오기 -->
 	<select id="getImgList" resultType="imgModel">
