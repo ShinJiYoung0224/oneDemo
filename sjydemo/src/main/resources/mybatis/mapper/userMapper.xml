@@ -25,6 +25,7 @@
 	<!-- select collection 이용해서 유저 리스트 가져오기 -->
 	<select id="getUserList" resultMap="userList">
 		SELECT *
+		<!-- 'wldud' as name --> <!-- 부모 테이블엔 없고 자식 테이블에만 존재 시 사용! --> 
 		FROM user
 		WHERE 1=1
 		order by user_no desc
@@ -108,11 +109,6 @@
 	<delete id="deleteUser" parameterType="UserModel">
 		DELETE 
 		FROM user
-		WHERE 1=1
-		AND user_no = #{userNo};
-		
-		DELETE
-		FROM user_img
 		WHERE 1=1
 		AND user_no = #{userNo};
 	</delete>
