@@ -6,9 +6,12 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
@@ -36,6 +39,15 @@ public class UserController {
 //		return "test.html";
 	}
 	
+	@RequestMapping("ajaxTest")
+	@ResponseBody
+	public String ajaxTest(UserModel um) {
+		String result = userService.ajaxTest(um);
+		return result;
+	}
+	
+	
+	//유저리스트(유저에 해당하는 이미지 리스트까지 가져옴)
 	@RequestMapping("/getList")
 	public ModelAndView getList(ModelAndView mv){
 		List<UserModel> um; 
@@ -45,19 +57,28 @@ public class UserController {
 		return mv; 
 	}
 	
+	//등록 폼
 	@RequestMapping("/insertForm")
 	public ModelAndView insertForm(ModelAndView mv) {
 		mv.setViewName("insert.html");
 		return mv;
 	}
 	
+	//등록
 	@RequestMapping("/insert")
-	public ModelAndView insertUser(UserModel um,ModelAndView mv) {
+	public ModelAndView insertUser(@Valid UserModel um, BindingResult result, ModelAndView mv) {
+		if(result.hasErrors()) {
+			List<ObjectError> objErrorList = result.getAllErrors(); 
+			for( ObjectError error : objErrorList ) {
+				System.out.println(error);
+			}
+		}
 		userService.insertUser(um);
 		mv.setViewName("redirect:/getList");
 		return mv;
 	}
 	
+	//디테일 및 수정화면
 	@RequestMapping("/detail")
 	public String detailUser(UserModel um, Model model, HttpServletRequest request, HttpServletResponse response) throws IOException {
 		um = userService.detailUser(um);
@@ -73,13 +94,8 @@ public class UserController {
 		return "detail.html";
 	}
 	
-	@RequestMapping("ajaxTest")
-	@ResponseBody
-	public String ajaxTest(UserModel um) {
-		String result = userService.ajaxTest(um);
-		return result;
-	}
-	
+
+	//submit update
 	@RequestMapping("updateUser")
 	public ModelAndView updateUser(UserModel um, ModelAndView mv) {
 		userService.updateUser(um);
@@ -88,6 +104,7 @@ public class UserController {
 		return mv;
 	}
 	
+	//ajax update
 	@RequestMapping("updateAjax")
 	@ResponseBody
 	public String updateAjax(UserModel um, ModelAndView mv) {
@@ -95,6 +112,7 @@ public class UserController {
 		return "OK";
 	}
 	
+	//sql에서 유저 테이블 참조하여 유저의 이미지까지 삭제
 	@RequestMapping("deleteUser")
 	public String deleteUser(UserModel um, HttpServletRequest request) {
 		String[] delUser = request.getParameterValues("del");
@@ -105,6 +123,22 @@ public class UserController {
 		return "redirect:/getList";
 	}
 	
+	//
+	@RequestMapping("deleteUser2")
+	public String deleteUser2(UserModel um, HttpServletRequest request) {
+		String[] delUser = request.getParameterValues("del");
+		for(String userNo : delUser) {
+			um.setUserNo(Integer.parseInt(userNo));
+			int result = userService.deleteUser(um);	
+			if(result > 0) {
+				imgService.deleteImg(um.getUserNo());
+			}
+		}
+		
+		return "redirect:/getList";
+	}
+	
+	//이미지 리스트(각 이미지에 해당하는 유저정보까지 가져옴)
 	@RequestMapping("getImgList")
 	public ModelAndView getImgList(ModelAndView mv) {
 		List<ImgModel> im;
@@ -113,4 +147,5 @@ public class UserController {
 		mv.addObject("imgList", im);
 		return mv;
 	}
+
 }

@@ -110,6 +110,6 @@
 		DELETE 
 		FROM user
 		WHERE 1=1
-		AND user_no = #{userNo};
+		AND user_no = #{userNo}
 	</delete>
 </mapper>

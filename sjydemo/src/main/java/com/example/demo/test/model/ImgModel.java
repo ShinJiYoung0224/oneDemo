@@ -1,12 +1,11 @@
 package com.example.demo.test.model;
 
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
-@NoArgsConstructor
+//@Data 도 사용가능 
 public class ImgModel {
 
 	private int imgNo;

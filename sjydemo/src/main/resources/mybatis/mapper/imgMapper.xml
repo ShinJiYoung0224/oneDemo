@@ -35,12 +35,19 @@
 	</select> -->
 	
 	<!-- 유저에 해당하는 이미지 리스트 가져오기 -->
-	<select id="getImgInfoList" resultType="imgModel">
+	<select id="getImgInfoList" resultType="ImgModel">
 		SELECT *
 		FROM user_img
 		WHERE 1=1
 		AND user_no = #{userNo}
 		AND name = #{name}
 	</select>
+	
+	<delete id="deleteImg" parameterType="int">
+		DELETE 
+		FROM user_img
+		WHERE 1=1
+		AND user_no = #{userNo}
+	</delete>
 	
 </mapper>

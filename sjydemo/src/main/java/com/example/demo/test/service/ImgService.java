@@ -20,4 +20,8 @@ public class ImgService {
 	public List<ImgModel> getImgList(){
 		return imgMapper.getImgList();
 	}
+	
+	public int deleteImg(int userNo) {
+		return imgMapper.deleteImg(userNo);
+	}
 }

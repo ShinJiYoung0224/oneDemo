@@ -11,4 +11,6 @@ public interface ImgMapper {
 	
 	public List<ImgModel> getImgList();
 	
+	public int deleteImg(int userNo);
+	
 }
