@@ -1,5 +1,4 @@
 
-#강제로 참조관계를 끊고 부모테이블 삭제
 DROP TABLE IF EXISTS user CASCADE CONSTRAINTS;
 
 CREATE TABLE user(
