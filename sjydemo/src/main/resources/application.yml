@@ -51,7 +51,7 @@ spring:
       mode: always
 
 server:
-  port: 6060
+  port: 5050
       
 mybatis:
   configuration:

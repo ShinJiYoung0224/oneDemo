@@ -40,6 +40,7 @@
 		FROM user_img
 		WHERE 1=1
 		AND user_no = #{userNo}
+		AND name = #{name}
 	</select>
 	
 </mapper>

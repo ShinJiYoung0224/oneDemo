@@ -4,11 +4,16 @@
 
 
 		<!-- select collection 이용해서 유저 리스트 가져오기 -->
-	<resultMap type="UserModel" id="userList">
-		<id property="userNo" column="user_no"/> <!--<result>태그를 써도 결과는 같지만 키가 될 값은 id로 사용하여 구분해주는게 좋은 것 같음 -->
-		<!-- 각 유저들의 이미지리스트를 가져오기 (1:M) -->
+<!-- 	<resultMap type="UserModel" id="userList">
+		<id property="userNo" column="user_no"/> <result>태그를 써도 결과는 같지만 키가 될 값은 id로 사용하여 구분해주는게 좋은 것 같음
+		각 유저들의 이미지리스트를 가져오기 (1:M)
 		<collection column="user_no" property="imgList" select="com.example.demo.test.mapper.ImgMapper.getImgInfoList" javaType="java.util.List" ofType="ImgModel" >
 		</collection>
+	</resultMap> -->
+	
+	<!-- collection 파라미터 여러개 사용법 --> 
+	<resultMap type="UserModel" id="userList">
+		<collection property="imgList" column="{userNo=user_no,name=name}" select="com.example.demo.test.mapper.ImgMapper.getImgInfoList" javaType="java.util.List"></collection>
 	</resultMap>
 	
 	<!-- join collection 이용해서 유저 리스트 가져오기 -->
