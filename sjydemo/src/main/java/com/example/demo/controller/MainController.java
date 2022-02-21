@@ -111,7 +111,7 @@ public class MainController {
 	
 	//유저 삭제 후 유저 이미지 삭제
 	@RequestMapping("deleteUserAndUserImg")
-	public String deleteUser2(UserModel userModel, HttpServletRequest request) throws Exception {
+	public String deleteUserAndUserImg(UserModel userModel, HttpServletRequest request) throws Exception {
 		String[] delUser = request.getParameterValues("del");
 		for(String userNo : delUser) {
 			userModel.setUserNo(Integer.parseInt(userNo));
