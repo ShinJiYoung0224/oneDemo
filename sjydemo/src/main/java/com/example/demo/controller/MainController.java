@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -20,12 +21,16 @@ import com.example.demo.test.model.ImgModel;
 import com.example.demo.test.model.UserModel;
 import com.example.demo.test.service.ImgService;
 import com.example.demo.test.service.UserService;
+import com.mysql.cj.log.Log;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j;
+import lombok.extern.slf4j.Slf4j;
 
 @Controller
 //@RestController
 @RequiredArgsConstructor
+@Slf4j
 public class MainController {
 	
 	private final UserService userService;
@@ -51,15 +56,27 @@ public class MainController {
 	
 	//등록
 	@RequestMapping("/insertUser")
-	public ModelAndView insertUser(/* @Valid */ UserModel userModel, BindingResult result, ModelAndView mv) {
-		if(result.hasErrors()) {
-			List<ObjectError> objErrorList = result.getAllErrors(); 
-			for( ObjectError error : objErrorList ) {
-				System.out.println(error);
+	public ModelAndView insertUser(/* @Valid */ UserModel userModel, ImgModel imgModel,
+			/* BindingResult result, */ ModelAndView mv, HttpServletRequest request) {
+		
+//		String[] imgList = imgModel.getImgName().split(",");
+		String[] imgList = request.getParameterValues("imgName");
+		
+		int result = userService.insertUser(userModel);
+		
+		if(result > 0) {
+			for(String img : imgList) {			
+				imgModel.setImgName(img);
+				imgModel.setUserInfo(userModel);
+				imgService.insertImg(imgModel);
 			}
+		}else {
+			log.info("유저 추가 실패");
 		}
-		userService.insertUser(userModel);
+		
+		
 		mv.setViewName("redirect:/getUserList");
+		
 		return mv;
 	}
 	
@@ -68,7 +85,6 @@ public class MainController {
 	public String userDetail(UserModel userModel, Model model, HttpServletRequest request, HttpServletResponse response) throws IOException {
 		userModel = userService.userDetail(userModel);
 		model.addAttribute("um", userModel);
-		
 		
 		  //submit 수정 후 detail 화면으로 redirect시 alert 띄우기
 		String referer = request.getHeader("referer"); 
@@ -85,8 +101,12 @@ public class MainController {
 	//submit으로 유저 정보 업데이트
 	@RequestMapping("updateUserSubmit")
 	public ModelAndView updateUserSubmit(UserModel userModel, ModelAndView mv) {
-		userService.updateUser(userModel);
-		mv.setViewName("redirect:/userDetail?userNo="+userModel.getUserNo());
+		int result = userService.updateUser(userModel);
+		if(result > 0) {
+			mv.setViewName("redirect:/userDetail?userNo="+userModel.getUserNo());
+		}else {
+			log.info("업데이트 실패");
+		}
 		return mv;
 	}
 	
@@ -94,8 +114,12 @@ public class MainController {
 	@RequestMapping("updateUserAjax")
 	@ResponseBody
 	public String updateUserAjax(UserModel userModel, ModelAndView mv) {
-		userService.updateUser(userModel);
-		return "OK";
+		int result = userService.updateUser(userModel);
+		if(result > 0) {
+			return "OK";			
+		}else {
+			return "FAIL";
+		}
 	}
 	
 	//sql에서 유저 테이블 참조하여 유저의 이미지까지 삭제
@@ -111,13 +135,15 @@ public class MainController {
 	
 	//유저 삭제 후 유저 이미지 삭제
 	@RequestMapping("deleteUserAndUserImg")
-	public String deleteUserAndUserImg(UserModel userModel, HttpServletRequest request) throws Exception {
+	public String deleteUserAndUserImg(UserModel userModel, HttpServletRequest request) {
 		String[] delUser = request.getParameterValues("del");
 		for(String userNo : delUser) {
 			userModel.setUserNo(Integer.parseInt(userNo));
 			int result = userService.deleteUser(userModel);	
 			if(result > 0) {
 				imgService.deleteImg(userModel.getUserNo());
+			}else {
+				log.info("삭제 실패");
 			}
 		}
 		

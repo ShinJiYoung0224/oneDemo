@@ -64,6 +64,9 @@
 	
 	<!-- 유저 리스트 추가 -->
 	<insert id="insertUser" parameterType="UserModel">
+	<selectKey resultType="int" keyProperty="userNo" order="AFTER">
+		SELECT user_no FROM user WHERE email = #{email} AND name = #{name} AND phone = #{phone}
+	</selectKey>
 		INSERT INTO user
 		(
 		email

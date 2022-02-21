@@ -6,6 +6,12 @@
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
+
+	//휴대폰번호 입력시 하이픈 자동입력
+	$(document).on("keyup", "#phone", 
+		function() { 
+			$(this).val( $(this).val().replace(/[^0-9]/g, "").replace(/(^02|^0505|^1[0-9]{3}|^0[0-9]{2})([0-9]+)?([0-9]{4})$/,"$1-$2-$3").replace("--", "-") ); });
+
 	
 	function updateUserSubmit(fm){
 		fm.action = "updateUserSubmit";

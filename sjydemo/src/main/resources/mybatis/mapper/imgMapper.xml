@@ -50,4 +50,20 @@
 		AND user_no = #{userNo}
 	</delete>
 	
+	<insert id="insertImg" parameterType="ImgModel">
+		INSERT INTO
+		user_img
+		(
+		user_no
+		,name
+		,img_name
+		)
+		VALUES
+		(
+		#{userInfo.userNo}
+		, #{userInfo.name}
+		, #{imgName}
+		)
+	</insert>
+	
 </mapper>

@@ -12,11 +12,11 @@ public interface UserMapper {
 
 	public List<UserModel> getUserList();
 	
-	public void insertUser(UserModel um);
+	public int insertUser(UserModel um);
 	
 	public UserModel userDetail(UserModel um);
 	
-	public void updateUser(UserModel um);
+	public int updateUser(UserModel um);
 	
 	public int deleteUser(UserModel um);
 	

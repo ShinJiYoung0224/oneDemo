@@ -20,16 +20,16 @@ public class UserService {
 		return userMapper.getUserList();
 	}
 	
-	public void insertUser(UserModel userModel) {
-		userMapper.insertUser(userModel);
+	public int insertUser(UserModel userModel) {
+		return userMapper.insertUser(userModel);
 	}
 	
 	public UserModel userDetail(UserModel userModel) {
 		return userMapper.userDetail(userModel);
 	}
 	
-	public void updateUser(UserModel userModel) {
-		userMapper.updateUser(userModel);
+	public int updateUser(UserModel userModel) {
+		return userMapper.updateUser(userModel);
 	}
 	
 	public int deleteUser(UserModel userModel) {

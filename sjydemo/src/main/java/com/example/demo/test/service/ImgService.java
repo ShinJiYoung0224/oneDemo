@@ -24,4 +24,8 @@ public class ImgService {
 	public int deleteImg(int userNo) {
 		return imgMapper.deleteImg(userNo);
 	}
+	
+	public int insertImg(ImgModel imgModel) {
+		return imgMapper.insertImg(imgModel);
+	}
 }

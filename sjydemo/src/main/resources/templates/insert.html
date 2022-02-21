@@ -3,9 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <title>지영짱</title>
-<link href="../css/style.css"rel="stylesheet">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
+	var imgIdx = 0;
+	$(document).ready(function() {
+		addImgBtn();
+	});
 	
 	//휴대폰번호 입력시 하이픈 자동입력
 	$(document).on("keyup", "#phone", 
@@ -51,8 +54,43 @@
 		fm.submit();
 	}
 	
+	// 파일추가 클릭 (첨부파일 5개 한정)
+	function addImgBtn(){
+		imgIdx++;
+		var html = '';
+		var liCount = $(".add").length;
+
+		// 동적 생성 숫자 한정
+		if(liCount < 5){
+			html += '<li class="add" id="add'+imgIdx+'">'
+				 + '<div class="attach_img">'
+				 + '<div class="inputImg">'
+				 + '<input type="text" name="imgName" id="imgName'+imgIdx+'" data-idx="'+imgIdx+'">'
+				 + '<input type="button" id="delImg'+imgIdx+'" value="X" onclick="delImgBtn('+imgIdx+')">'
+				 + '</div>'
+				 + '</div>'
+				 + '</li>';
+			$("#imgArea").append(html);
+		}else{
+			alert("최대 5개까지 가능합니다.");
+			return false;
+		}
+	}
+	
+	function delImgBtn(idx){
+		if($(".add").length > 1) {
+			$("#add"+idx).remove();
+		} else {
+			$("#imgName"+idx).val("");
+		}
+	}
+	
 </script>
 <style>
+ul{
+   list-style:none;
+   margin : -20px 0 30px -40px;
+   }
 .btn{
 	width: 150px;
 	height: 70px;
@@ -77,7 +115,15 @@
 				<td>phone</td>
 				<td><input type="text" name="phone" id="phone" placeholder="숫자만 입력"></td>
 			</tr>
+			<tr>
+			</tr>
 		</table>
+		<div>
+		<h5>이미지</h5>
+				<ul id="imgArea">
+				<input type="button" id="addImg" onclick="addImgBtn()" value="+이미지 슬롯 추가">
+				</ul>
+		</div>
 		<input type="button" value="▶추가하기◀" class="btn" onclick="insert(this.form)">
 		<input type="button" value="리스트로~" class="btn" onclick="location.href='getUserList'">
 	</form>
