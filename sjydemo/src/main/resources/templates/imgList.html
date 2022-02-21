@@ -29,7 +29,7 @@
 <body>
 <form id="fm" name="fm">
 <h1>이미지 리스트당~</h1> 
-<input type="button" value="유저리스트로~" class="btn" onclick="location.href='getList'">
+<input type="button" value="유저리스트로~" class="btn" onclick="location.href='getUserList'">
 	<table>
 		<tr>
 			<td>imgNo</td>
@@ -40,11 +40,11 @@
 			<td>[[${imgList.imgNo}]] </td>
 			<td>[[${imgList.imgName}]] </td>
 			<td>
-				<div th:each="userList : ${imgList.userInfo}">
-					userNo : [[${userList.userNo}]] <br>
-					name : [[${userList.name}]] <br>
-					email : [[${userList.email}]]<br>
-					tel : [[${userList.tel}]]
+				<div th:each="userInfo : ${imgList.userInfo}">
+					userNo : [[${userInfo.userNo}]] <br>
+					name : [[${userInfo.name}]] <br>
+					email : [[${userInfo.email}]]<br>
+					phone : [[${userInfo.phone}]]
 				</div>
 			</td>
 		</tr>

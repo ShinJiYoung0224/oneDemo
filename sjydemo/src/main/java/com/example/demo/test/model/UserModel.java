@@ -16,15 +16,14 @@ public class UserModel {
 	
 	private int userNo;
 	
-	@NotBlank(message = "이메일을 입력하세요.")
-	@Email(message = "이메일 형식을 확인해주세요.")
+//	@NotBlank(message = "이메일을 입력하세요.")
+//	@Email(message = "이메일 형식을 확인해주세요.")
 	private String email;
 	
 	private String name;
 	
-	@NotBlank(message = "휴대폰번호를 입력하세요.")
-	@PositiveOrZero(message = "휴대폰번호는 숫자만 입력해주세요.")
-	private String tel;
+//	@NotBlank(message = "휴대폰번호를 입력하세요.")
+	private String phone;
 	
 	private List<ImgModel> imgList;
 }

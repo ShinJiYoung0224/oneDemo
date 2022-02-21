@@ -1,5 +1,5 @@
-INSERT INTO `user` (`email`, `name`, `tel`) VALUES
-('kkkkkk@naver.com', '김종학', '010-0000-0001'),
+INSERT INTO `user` (`email`, `name`, `phone`) VALUES
+('kkkkkk@naver.com', '김종학', '010-000-0001'),
 ('lll@naver.com', '이현주', '010-0000-0002'),
 ('kkhhh@naver.com', '김환영', '010-0000-0003'),
 ('kkkkkss@naver.com', '김성현', '010-0000-0004'),

@@ -14,9 +14,7 @@ public interface UserMapper {
 	
 	public void insertUser(UserModel um);
 	
-	public UserModel detailUser(UserModel um);
-	
-	public String ajaxTest(UserModel um);
+	public UserModel userDetail(UserModel um);
 	
 	public void updateUser(UserModel um);
 	

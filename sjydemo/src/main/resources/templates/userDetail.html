@@ -5,52 +5,26 @@
 <title>지영짱</title>
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script th:inline="javascript">
-
-	function ajaxTest() {
-		
-		var email = $("#email").val();
-		
-		$.ajax({
-			url : "ajaxTest",
-			dataType : "text",
-			type : "GET",
-			data : {
-				email : email
-			},
-			success : function(data) {
-				alert(data);
-			},
-			error : function(request, status, error) {
-				alert("오류발생");
-			}
-		});
-	}
+<script>
 	
-	$(function(){
-	
-	});
-		
-	
-	
-	function update(fm){
-		fm.action = "updateUser";
+	function updateUserSubmit(fm){
+		fm.action = "updateUserSubmit";
 		fm.submit();
 	}
 	
-	function updateAjax(){
+	function updateUserAjax(){
 		
 		var userNo = $("#userNo").val();
-		var tel = $("#tel").val();
+		var phone = $("#phone").val();
 		var email = $("#email").val();
 		
 		$.ajax({
-			url : "updateAjax",
+			url : "updateUserAjax",
 			type : "post",
 			dataType : "text",
 			data : {
 				userNo : userNo,
-				tel : tel,
+				phone : phone,
 				email : email
 			},
 			success : function(data){
@@ -103,23 +77,22 @@ td {
 		<table>
 			<tr>
 				<!-- <td th:text="${um.name}+'의 메일주소는 '+${um.email}"> -->
-				<td>[[${um.name}]]님의 메일주소는
+				<td>email
 					 <input type="text" name="email" id="email" class="input" th:value="${um.email}">
 				</td>
 			</tr>
 			<tr>
 			</tr>
 			<tr>
-				<!-- <td th:text="${um.name}+'의 전화번호는 '+${um.tel}"> -->
-				<td>[[${um.name}]]님의 전화번호는 
-					<input type="text" name="tel" id="tel" class="input" th:value="${um.tel}"> 
+				<!-- <td th:text="${um.name}+'의 전화번호는 '+${um.phone}"> -->
+				<td>phone
+					<input type="text" name="phone" id="phone" class="input" th:value="${um.phone}"> 
 				</td>
 			</tr>
 		</table>
-		<input type="button" value="▶리스트로~" class="btn" onclick="location.href='getList'">
-		<input type="button" value="메일로 이름 ajaxTest" class="btn" onclick="ajaxTest()">
-		<input type="button" value="수정하기(submit)" class="btn" onclick="update(this.form)">
-		<input type="button" value="수정하기(ajax)" class="btn" onclick="updateAjax()">
+		<input type="button" value="▶리스트로~" class="btn" onclick="location.href='getUserList'">
+		<input type="button" value="수정하기(submit)" class="btn" onclick="updateUserSubmit(this.form)">
+		<input type="button" value="수정하기(ajax)" class="btn" onclick="updateUserAjax()">
 	</form>
 </body>
 </html>
