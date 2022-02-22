@@ -32,125 +32,140 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 @Slf4j
 public class MainController {
-	
+
 	private final UserService userService;
 	private final ImgService imgService;
-	
-	
-	//유저리스트(유저에 해당하는 이미지 리스트까지 가져옴)
+
+	// 유저리스트(유저에 해당하는 이미지 리스트까지 가져옴)
 	@RequestMapping("/getUserList")
-	public ModelAndView getUserList(ModelAndView mv){
-		List<UserModel> userList; 
+	public ModelAndView getUserList(ModelAndView mv) {
+		List<UserModel> userList;
 		userList = userService.getUserList();
 		mv.setViewName("userList.html");
 		mv.addObject("userList", userList);
-		return mv; 
+		return mv;
 	}
-	
-	//등록 폼
+
+	// 등록 폼
 	@RequestMapping("/insertForm")
 	public ModelAndView insertForm(ModelAndView mv) {
-		mv.setViewName("insert.html");
+		mv.setViewName("insertForm.html");
 		return mv;
 	}
-	
-	//등록
+
+	// 등록
 	@RequestMapping("/insertUser")
-	public ModelAndView insertUser(/* @Valid */ UserModel userModel, ImgModel imgModel,
-			/* BindingResult result, */ ModelAndView mv, HttpServletRequest request) {
-		
-//		String[] imgList = imgModel.getImgName().split(",");
-		String[] imgList = request.getParameterValues("imgName");
-		
-		int result = userService.insertUser(userModel);
-		
-		if(result > 0) {
-			for(String img : imgList) {			
-				imgModel.setImgName(img);
-				imgModel.setUserInfo(userModel);
-				imgService.insertImg(imgModel);
+	@ResponseBody
+	public String insertUser(@Valid UserModel userModel, ImgModel imgModel, BindingResult bindingResult,
+			ModelAndView mv, HttpServletRequest request) {
+
+		String result = "";
+
+		int insertResult = userService.insertUser(userModel);
+
+		if (insertResult > 0) {
+			if (!imgModel.getImgName().equals("")) {
+				String[] imgList = imgModel.getImgName().split(",");
+				for (String img : imgList) {
+					imgModel.setImgName(img);
+					imgModel.setUserInfo(userModel);
+					imgService.insertImg(imgModel);
+				}
 			}
-		}else {
-			log.info("유저 추가 실패");
+			result = "OK";
+
+		} else {
+			result = "FAIL";
 		}
-		
-		
-		mv.setViewName("redirect:/getUserList");
-		
-		return mv;
+
+		return result;
 	}
-	
-	//디테일 및 수정화면
+
+	// 디테일 및 수정화면
 	@RequestMapping("/userDetail")
-	public String userDetail(UserModel userModel, Model model, HttpServletRequest request, HttpServletResponse response) throws IOException {
+	public String userDetail(UserModel userModel, Model model, HttpServletRequest request, HttpServletResponse response)
+			throws IOException {
 		userModel = userService.userDetail(userModel);
-		model.addAttribute("um", userModel);
-		
-		  //submit 수정 후 detail 화면으로 redirect시 alert 띄우기
-		String referer = request.getHeader("referer"); 
-		  if(referer.indexOf("userDetail") > -1) {
-		  response.setContentType("text/html; charset=euc-kr");
-		  PrintWriter out = response.getWriter();
-		  out.println("<script>alert('수정 완료'); </script>");
-		  out.flush(); }
-		 
+		model.addAttribute("user", userModel);
+
+		// submit 수정 후 detail 화면으로 redirect시 alert 띄우기
+		String referer = request.getHeader("referer");
+		if (referer.indexOf("userDetail") > -1) {
+			response.setContentType("text/html; charset=euc-kr");
+			PrintWriter out = response.getWriter();
+			out.println("<script>alert('수정 완료'); </script>");
+			out.flush();
+		}
+
 		return "userDetail.html";
 	}
-	
 
-	//submit으로 유저 정보 업데이트
-	@RequestMapping("updateUserSubmit")
-	public ModelAndView updateUserSubmit(UserModel userModel, ModelAndView mv) {
-		int result = userService.updateUser(userModel);
-		if(result > 0) {
-			mv.setViewName("redirect:/userDetail?userNo="+userModel.getUserNo());
-		}else {
-			log.info("업데이트 실패");
-		}
-		return mv;
-	}
-	
-	//ajax로 유저 정보 업데이트
+	// submit으로 유저 정보 업데이트
+//	@RequestMapping("updateUserSubmit")
+//	public ModelAndView updateUserSubmit(UserModel userModel, ModelAndView mv) {
+//		int result = userService.updateUser(userModel);
+//		if(result > 0) {
+//			mv.setViewName("redirect:/userDetail?userNo="+userModel.getUserNo());
+//		}else {
+//			log.info("업데이트 실패");
+//		}
+//		return mv;
+//	}
+
+	// ajax로 유저 정보 업데이트
 	@RequestMapping("updateUserAjax")
 	@ResponseBody
-	public String updateUserAjax(UserModel userModel, ModelAndView mv) {
+	public String updateUserAjax(UserModel userModel, ImgModel imgModel) {
+
 		int result = userService.updateUser(userModel);
-		if(result > 0) {
-			return "OK";			
-		}else {
+		if (result > 0) {
+			if (!imgModel.getImgName().equals("")) {
+				imgService.deleteImg(userModel.getUserNo());
+				imgModel.setUserInfo(userModel);
+				String[] imgList = imgModel.getImgName().split(",");
+				for (String img : imgList) {
+					imgModel.setImgName(img);
+					imgModel.setUserInfo(userModel);
+					imgService.insertImg(imgModel);
+				}
+			}else {
+				imgService.deleteImg(userModel.getUserNo());
+			}
+			return "OK";
+		} else {
 			return "FAIL";
 		}
 	}
-	
-	//sql에서 유저 테이블 참조하여 유저의 이미지까지 삭제
-	@RequestMapping("deleteUserAndUserImgRef")
-	public String deleteUserAndUserImgRef(UserModel userModel, HttpServletRequest request) {
-		String[] delUser = request.getParameterValues("del");
-		for(String userNo : delUser) {
-			userModel.setUserNo(Integer.parseInt(userNo));
-			userService.deleteUser(userModel);			
-		}
-		return "redirect:/getUserList";
-	}
-	
-	//유저 삭제 후 유저 이미지 삭제
+
+	// sql에서 유저 테이블 참조하여 유저의 이미지까지 삭제
+//	@RequestMapping("deleteUserAndUserImgRef")
+//	public String deleteUserAndUserImgRef(UserModel userModel, HttpServletRequest request) {
+//		String[] delUser = request.getParameterValues("del");
+//		for (String userNo : delUser) {
+//			userModel.setUserNo(Integer.parseInt(userNo));
+//			userService.deleteUser(userModel);
+//		}
+//		return "redirect:/getUserList";
+//	}
+
+	// 유저 삭제 후 유저 이미지 삭제
 	@RequestMapping("deleteUserAndUserImg")
 	public String deleteUserAndUserImg(UserModel userModel, HttpServletRequest request) {
 		String[] delUser = request.getParameterValues("del");
-		for(String userNo : delUser) {
+		for (String userNo : delUser) {
 			userModel.setUserNo(Integer.parseInt(userNo));
-			int result = userService.deleteUser(userModel);	
-			if(result > 0) {
+			int result = userService.deleteUser(userModel);
+			if (result > 0) {
 				imgService.deleteImg(userModel.getUserNo());
-			}else {
+			} else {
 				log.info("삭제 실패");
 			}
 		}
-		
+
 		return "redirect:/getUserList";
 	}
-	
-	//이미지 리스트(각 이미지에 해당하는 유저정보까지 가져옴)
+
+	// 이미지 리스트(각 이미지에 해당하는 유저정보까지 가져옴)
 	@RequestMapping("getImgList")
 	public ModelAndView getImgList(ModelAndView mv) {
 		List<ImgModel> imgList;

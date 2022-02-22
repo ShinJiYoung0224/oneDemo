@@ -82,7 +82,7 @@
 	</insert>
 	
 	<!-- 리스트 이름 클릭시 디테일 -->
-	<select id="userDetail" resultType="UserModel">
+	<select id="userDetail" resultMap="userList">
 		SELECT 
 		*
 		FROM user

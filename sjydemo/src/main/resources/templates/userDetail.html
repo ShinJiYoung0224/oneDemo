@@ -7,22 +7,54 @@
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
 
+	var imgIdx = 0;
+	
 	//휴대폰번호 입력시 하이픈 자동입력
 	$(document).on("keyup", "#phone", 
 		function() { 
 			$(this).val( $(this).val().replace(/[^0-9]/g, "").replace(/(^02|^0505|^1[0-9]{3}|^0[0-9]{2})([0-9]+)?([0-9]{4})$/,"$1-$2-$3").replace("--", "-") ); });
 
 	
-	function updateUserSubmit(fm){
+	/* function updateUserSubmit(fm){
 		fm.action = "updateUserSubmit";
 		fm.submit();
-	}
+	} */
 	
 	function updateUserAjax(){
 		
 		var userNo = $("#userNo").val();
 		var phone = $("#phone").val();
 		var email = $("#email").val();
+		var imgList = [];
+		imgListLength = $("input[name='imgName']").length;
+		for(var i = 0; i <imgListLength; i++){
+			imgList[i] = $("input[name='imgName']").eq(i).val();
+		}
+		
+		var regPhone = /^01([0|1|6|7|8|9])-?([0-9]{3,4})-?([0-9]{4})$/;
+		var regEmail = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/;
+		
+		if(email == "") {
+			alert("이메일을 입력해주세요.");
+			$("#email").focus();
+			return;
+		}
+		if(phone == "") {
+			alert("휴대폰번호를 입력해주세요.");
+			$("#phone").focus();
+			return;
+		}
+		
+		if(!regEmail.test(email)){
+			alert("이메일 형식을 확인해주세요.");
+			$("#email").focus();
+			return;
+		}
+		if(!regPhone.test(phone)){
+			alert("휴대폰번호 형식을 확인해주세요.");
+			$("#phone").focus();
+			return;
+		}
 		
 		$.ajax({
 			url : "updateUserAjax",
@@ -31,7 +63,8 @@
 			data : {
 				userNo : userNo,
 				phone : phone,
-				email : email
+				email : email,
+				imgName : imgList
 			},
 			success : function(data){
 				if(data == "OK"){
@@ -45,11 +78,38 @@
 			}
 		});
 	}
+	
+	// 파일추가 클릭 (첨부파일 5개 한정)
+	function addImgBtn(){
+		imgIdx++;
+		var html = '';
+		var liCount = $(".add").length;
+
+		// 동적 생성 숫자 한정
+		if(liCount < 5){
+			html += '<li class="add" id="add">'
+				 + '<div class="attach_img">'
+				 + '<div class="inputImg">'
+				 + '<input type="text" name="imgName" id="imgName">'
+				 + '<input type="button" id="delImg" value="X" onclick="delImgBtn(this)">'
+				 + '</div>'
+				 + '</div>'
+				 + '</li>';
+			$("#imgArea").append(html);
+		}else{
+			alert("최대 5개까지 가능합니다.");
+			return false;
+		}
+	}
+	
+	function delImgBtn(obj){
+		 if($(".add").length > 1) {
+			$(obj).parents("li").remove();
+		} else {
+			$("#imgName").val("");
+		} 
+	}
 		
-		
-	
-	
-	
 </script>
 <style>
  .btn {
@@ -58,16 +118,10 @@
 	background-color: orange;
 	font-size: 17px;
 }
-
-table {
-	width: 500px;
-	border: 1px solid #444444;
-}
-
-td {
-	width: 300px;
-	border: 1px solid #444444;
-}
+ul{
+   list-style:none;
+   margin : -20px 0 30px -40px;
+   }
 
 .name {
 	width: 200px;
@@ -76,28 +130,42 @@ td {
 </head>
 <body>
 	<form id="fm" name="fm" method="post">
-	<input type="hidden" name="userNo" id="userNo" th:value="${um.userNo}">
-	<input type="hidden" name="name" id="name" th:value="${um.name}">
+	<input type="hidden" name="userNo" id="userNo" th:value="${user.userNo}">
+	<input type="hidden" name="name" id="name" th:value="${user.name}">
 	<input type="hidden" name="updateYn" id="updateYn" th:value="${updateYn}">
-		<h2 th:text="${um.name}+ ' 상세보기'"></h2>
+		<h2 th:text="${user.name}+ ' 상세보기'"></h2>
 		<table>
 			<tr>
-				<!-- <td th:text="${um.name}+'의 메일주소는 '+${um.email}"> -->
 				<td>email
-					 <input type="text" name="email" id="email" class="input" th:value="${um.email}">
+					 <input type="text" name="email" id="email" class="input" th:value="${user.email}">
 				</td>
 			</tr>
 			<tr>
 			</tr>
 			<tr>
-				<!-- <td th:text="${um.name}+'의 전화번호는 '+${um.phone}"> -->
 				<td>phone
-					<input type="text" name="phone" id="phone" class="input" th:value="${um.phone}"> 
+					<input type="text" name="phone" id="phone" class="input" th:value="${user.phone}"> 
 				</td>
 			</tr>
 		</table>
+		<div>
+			<h5>이미지</h5>
+			<ul id="imgArea">
+				<input type="button" id="addImg" onclick="addImgBtn()" value="+이미지 슬롯 추가">
+				<div th:if="${user.imgList != null}">
+					<li class="add" id="add" th:each="imgList, i : ${user.imgList}">
+				 		<div class="attach_img">
+				 			<div class="inputImg">
+				 				<input type="text" name="imgName" id="imgName" th:value="${imgList.imgName}">
+				 				<input type="button" id="delImg" value="X" onclick="delImgBtn(this)">
+				 			</div>
+				 		</div>
+					</li>
+				</div>
+			</ul>
+		</div>
 		<input type="button" value="▶리스트로~" class="btn" onclick="location.href='getUserList'">
-		<input type="button" value="수정하기(submit)" class="btn" onclick="updateUserSubmit(this.form)">
+		<!-- <input type="button" value="수정하기(submit)" class="btn" onclick="updateUserSubmit(this.form)"> -->
 		<input type="button" value="수정하기(ajax)" class="btn" onclick="updateUserAjax()">
 	</form>
 </body>
