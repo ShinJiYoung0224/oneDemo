@@ -10,14 +10,32 @@
 
 
 	//schema.sql 수정 후 사용해야함
-	function deleteUserAndUserImgRef(fm){
+/* 	function deleteUserAndUserImgRef(fm){
 		if(!delCheck()) return;
 		fm.action = "deleteUserAndUserImgRef";
 		fm.submit();
-	}
+	} */
 	
-	function deleteUserAndUserImg(fm){
+	function deleteUserAndUserImg(){
 		if(!delCheck()) return;
+		
+		var obj =  $("#fm").serialize();
+		
+		$.ajax({
+			url : "deleteUserAndUserImg",
+			type : "post",
+			dataType : "text",
+			data :  obj,
+			success : function(result){
+				alert("삭제 성공");
+				window.location.href = "/getUserList";
+			},
+			error : function(request, status, error){
+				alert("삭제 실패")
+			}
+		
+		})
+			
 		fm.action = "deleteUserAndUserImg"
 		fm.submit();
 	}
@@ -82,7 +100,7 @@
 	
 	<input type="button" value="★추가★" class="btn" onclick="location.href='insertForm'">
 	<!-- <input type="button" value="유저 테이블 참조해서 삭제" class="btn" onclick="deleteUserAndUserImgRef(this.form)" style="width:250px"> -->
-	<input type="button" value="유저 삭제 후 이미지 삭제" class="btn" onclick="deleteUserAndUserImg(this.form)" style="width:250px">
+	<input type="button" value="유저 삭제 후 이미지 삭제" class="btn" onclick="deleteUserAndUserImg()" style="width:250px">
 	<input type="button" value="이미지리스트" class="btn" onclick="location.href='getImgList'">
 </form>
 

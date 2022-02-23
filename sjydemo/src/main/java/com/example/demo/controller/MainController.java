@@ -1,18 +1,15 @@
 package com.example.demo.controller;
 
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
@@ -21,10 +18,8 @@ import com.example.demo.test.model.ImgModel;
 import com.example.demo.test.model.UserModel;
 import com.example.demo.test.service.ImgService;
 import com.example.demo.test.service.UserService;
-import com.mysql.cj.log.Log;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.log4j.Log4j;
 import lombok.extern.slf4j.Slf4j;
 
 @Controller
@@ -83,58 +78,21 @@ public class MainController {
 
 	// 디테일 및 수정화면
 	@RequestMapping("/userDetail")
-	public String userDetail(UserModel userModel, Model model, HttpServletRequest request, HttpServletResponse response)
-			throws IOException {
+	public String userDetail(UserModel userModel, Model model, HttpServletRequest request, HttpServletResponse response) {
 		userModel = userService.userDetail(userModel);
 		model.addAttribute("user", userModel);
 
-		// submit 수정 후 detail 화면으로 redirect시 alert 띄우기
-		String referer = request.getHeader("referer");
-		if (referer.indexOf("userDetail") > -1) {
-			response.setContentType("text/html; charset=euc-kr");
-			PrintWriter out = response.getWriter();
-			out.println("<script>alert('수정 완료'); </script>");
-			out.flush();
-		}
-
 		return "userDetail.html";
 	}
-
-	// submit으로 유저 정보 업데이트
-//	@RequestMapping("updateUserSubmit")
-//	public ModelAndView updateUserSubmit(UserModel userModel, ModelAndView mv) {
-//		int result = userService.updateUser(userModel);
-//		if(result > 0) {
-//			mv.setViewName("redirect:/userDetail?userNo="+userModel.getUserNo());
-//		}else {
-//			log.info("업데이트 실패");
-//		}
-//		return mv;
-//	}
 
 	// ajax로 유저 정보 업데이트
 	@RequestMapping("updateUserAjax")
 	@ResponseBody
 	public String updateUserAjax(UserModel userModel, ImgModel imgModel) {
 
-		int result = userService.updateUser(userModel);
-		if (result > 0) {
-			if (!imgModel.getImgName().equals("")) {
-				imgService.deleteImg(userModel.getUserNo());
-				imgModel.setUserInfo(userModel);
-				String[] imgList = imgModel.getImgName().split(",");
-				for (String img : imgList) {
-					imgModel.setImgName(img);
-					imgModel.setUserInfo(userModel);
-					imgService.insertImg(imgModel);
-				}
-			}else {
-				imgService.deleteImg(userModel.getUserNo());
-			}
-			return "OK";
-		} else {
-			return "FAIL";
-		}
+		String result = userService.updateUser(userModel, imgModel);
+		
+		return result;
 	}
 
 	// sql에서 유저 테이블 참조하여 유저의 이미지까지 삭제
@@ -150,17 +108,17 @@ public class MainController {
 
 	// 유저 삭제 후 유저 이미지 삭제
 	@RequestMapping("deleteUserAndUserImg")
-	public String deleteUserAndUserImg(UserModel userModel, HttpServletRequest request) {
-		String[] delUser = request.getParameterValues("del");
-		for (String userNo : delUser) {
-			userModel.setUserNo(Integer.parseInt(userNo));
-			int result = userService.deleteUser(userModel);
-			if (result > 0) {
-				imgService.deleteImg(userModel.getUserNo());
-			} else {
-				log.info("삭제 실패");
-			}
-		}
+	public String deleteUserAndUserImg(@Param(value="del") String[] del) {
+//		String[] delUser = request.getParameterValues("del");
+//		for (String userNo : delUser) {
+//			userModel.setUserNo(Integer.parseInt(userNo));
+//			int result = userService.deleteUser(userModel);
+//			if (result > 0) {
+//				imgService.deleteImg(userModel.getUserNo());
+//			} else {
+//				log.info("삭제 실패");
+//			}
+//		}
 
 		return "redirect:/getUserList";
 	}
