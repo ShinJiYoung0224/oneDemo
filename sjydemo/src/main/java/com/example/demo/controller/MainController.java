@@ -108,19 +108,12 @@ public class MainController {
 
 	// 유저 삭제 후 유저 이미지 삭제
 	@RequestMapping("deleteUserAndUserImg")
+	@ResponseBody
 	public String deleteUserAndUserImg(@Param(value="del") String[] del) {
-//		String[] delUser = request.getParameterValues("del");
-//		for (String userNo : delUser) {
-//			userModel.setUserNo(Integer.parseInt(userNo));
-//			int result = userService.deleteUser(userModel);
-//			if (result > 0) {
-//				imgService.deleteImg(userModel.getUserNo());
-//			} else {
-//				log.info("삭제 실패");
-//			}
-//		}
+		
+		String result = userService.deleteUser(del);
 
-		return "redirect:/getUserList";
+		return result;
 	}
 
 	// 이미지 리스트(각 이미지에 해당하는 유저정보까지 가져옴)

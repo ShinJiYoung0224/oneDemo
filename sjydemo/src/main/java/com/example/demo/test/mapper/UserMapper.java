@@ -18,6 +18,6 @@ public interface UserMapper {
 	
 	public int updateUser(UserModel um);
 	
-	public int deleteUser(UserModel um);
+	public int deleteUser(int userNo);
 	
 }

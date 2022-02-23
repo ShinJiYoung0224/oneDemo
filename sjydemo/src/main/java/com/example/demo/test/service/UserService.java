@@ -46,14 +46,26 @@ public class UserService {
 			}else {
 				imgService.deleteImg(userModel.getUserNo());
 			}
+			
 			return "OK";
 		} else {
+			
 			return "FAIL";
+			
 		}
 	}
 	
-	public int deleteUser(UserModel userModel) {
-		return userMapper.deleteUser(userModel);
+	public String deleteUser(String[] delList) {
+		
+		for (String userNo : delList) {
+			int result = userMapper.deleteUser(Integer.parseInt(userNo));
+			if (result > 0) {
+				imgService.deleteImg(Integer.parseInt(userNo));
+			} else {
+				return "FAIL";
+			}
+		}
+		return "OK";
 	}
 	
 }

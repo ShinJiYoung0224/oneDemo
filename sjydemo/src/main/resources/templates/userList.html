@@ -19,13 +19,11 @@
 	function deleteUserAndUserImg(){
 		if(!delCheck()) return;
 		
-		var obj =  $("#fm").serialize();
-		
 		$.ajax({
 			url : "deleteUserAndUserImg",
 			type : "post",
 			dataType : "text",
-			data :  obj,
+			data :  $("#fm").serialize(),
 			success : function(result){
 				alert("삭제 성공");
 				window.location.href = "/getUserList";
