@@ -54,24 +54,7 @@ public class MainController {
 	public String insertUser(@Valid UserModel userModel, ImgModel imgModel, BindingResult bindingResult,
 			ModelAndView mv, HttpServletRequest request) {
 
-		String result = "";
-
-		int insertResult = userService.insertUser(userModel);
-
-		if (insertResult > 0) {
-			if (!imgModel.getImgName().equals("")) {
-				String[] imgList = imgModel.getImgName().split(",");
-				for (String img : imgList) {
-					imgModel.setImgName(img);
-					imgModel.setUserInfo(userModel);
-					imgService.insertImg(imgModel);
-				}
-			}
-			result = "OK";
-
-		} else {
-			result = "FAIL";
-		}
+		String result = userService.insertUser(userModel, imgModel);
 
 		return result;
 	}

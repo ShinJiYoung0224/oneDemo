@@ -16,103 +16,116 @@
 				$(this).val( $(this).val().replace(/[^0-9]/g, "").replace(/(^02|^0505|^1[0-9]{3}|^0[0-9]{2})([0-9]+)?([0-9]{4})$/,"$1-$2-$3").replace("--", "-") ); });
 
 
-	function insert(fm){
-		var email = $("#email").val();
+
+	function insert(fm) {
+/* 		var email = $("#email").val();
 		var name = $("#name").val();
 		var phone = $("#phone").val();
 		var imgList = [];
 		imgListLength = $("input[name='imgName']").length;
-		for(var i = 0; i <imgListLength; i++){
+		for (var i = 0; i < imgListLength; i++) {
 			imgList[i] = $("input[name='imgName']").eq(i).val();
-		}
+		} */
+
+		$.fn.serializeObject = function() {
+			  "use strict"
+			  var result = {}
+			  var extend = function(i, element) {
+			    var node = result[element.name]
+			    if ("undefined" !== typeof node && node !== null) {
+			      if ($.isArray(node)) {
+			        node.push(element.value)
+			      } else {
+			        result[element.name] = [node, element.value]
+			      }
+			    } else {
+			      result[element.name] = element.value
+			    }
+			  }
+
+			  $.each(this.serializeArray(), extend)
+			  return result
+			}
+		var obj = $("#fm").serializeObject();
+
 		var regPhone = /^01([0|1|6|7|8|9])-?([0-9]{3,4})-?([0-9]{4})$/;
 		var regEmail = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/;
-		
-		if(email == "") {
+
+		if (obj.email == "") {
 			alert("이메일을 입력해주세요.");
 			$("#email").focus();
 			return;
 		}
-		if(name == "") {
+		if (obj.name == "") {
 			alert("이름을 입력해주세요.");
 			$("#name").focus();
 			return;
 		}
-		if(phone == "") {
+		if (obj.phone == "") {
 			alert("휴대폰번호를 입력해주세요.");
 			$("#phone").focus();
 			return;
 		}
-		
-		if(!regEmail.test(email)){
+
+		if (!regEmail.test(obj.email)) {
 			alert("이메일 형식을 확인해주세요.");
 			$("#email").focus();
 			return;
 		}
-		if(!regPhone.test(phone)){
+		if (!regPhone.test(obj.phone)) {
 			alert("휴대폰번호 형식을 확인해주세요.");
 			$("#phone").focus();
 			return;
 		}
-		
+
 		$.ajax({
 			url : "insertUser",
 			dataType : "text",
 			type : "post",
-			data : {
-				email : email,
-				name : name,
-				phone : phone,
-				imgName : imgList
-				
-			},
-			success : function(result){
-				if(result == "OK"){
+			data : obj,
+			success : function(result) {
+				if (result == "OK") {
 					alert("추가 완료");
 					window.location.href = "/getUserList";
-				}else{
+				} else {
 					alert("추가 실패");
 				}
-			},error : function(request, status, error){
+			},
+			error : function(request, status, error) {
 				alert("추가 실패");
 			}
 		});
-		
-		/* fm.action = "insertUser";
-		fm.submit(); */
 	}
-	
+
 	// 파일추가 클릭 (첨부파일 5개 한정)
-	function addImgBtn(){
+	function addImgBtn() {
 		imgIdx++;
 		var html = '';
 		var liCount = $(".add").length;
 
 		// 동적 생성 숫자 한정
-		if(liCount < 5){
+		if (liCount < 5) {
 			html += '<li class="add" id="add'+imgIdx+'">'
-				 + '<div class="attach_img">'
-				 + '<div class="inputImg">'
-				 + '<input type="text" name="imgName" id="imgName'+imgIdx+'" data-idx="'+imgIdx+'">'
-				 + '<input type="button" id="delImg'+imgIdx+'" value="X" onclick="delImgBtn('+imgIdx+')">'
-				 + '</div>'
-				 + '</div>'
-				 + '</li>';
+					+ '<div class="attach_img">'
+					+ '<div class="inputImg">'
+					+ '<input type="text" name="imgName" id="imgName'+imgIdx+'" data-idx="'+imgIdx+'">'
+					+ '<input type="button" id="delImg' + imgIdx
+					+ '" value="X" onclick="delImgBtn(' + imgIdx + ')">'
+					+ '</div>' + '</div>' + '</li>';
 			$("#imgArea").append(html);
-		}else{
+		} else {
 			alert("최대 5개까지 가능합니다.");
 			return false;
 		}
 	}
-	
-	function delImgBtn(idx){
-		if($(".add").length > 1) {
-			$("#add"+idx).remove();
+
+	function delImgBtn(idx) {
+		if ($(".add").length > 1) {
+			$("#add" + idx).remove();
 		} else {
-			$("#imgName"+idx).val("");
+			$("#imgName" + idx).val("");
 		}
 	}
-	
 </script>
 <style>
 ul{

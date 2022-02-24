@@ -21,8 +21,28 @@ public class UserService {
 		return userMapper.getUserList();
 	}
 	
-	public int insertUser(UserModel userModel) {
-		return userMapper.insertUser(userModel);
+	public String insertUser(UserModel userModel, ImgModel imgModel) {
+		
+		String result = "";
+		int insertResult = userMapper.insertUser(userModel);
+		
+		if (insertResult > 0) {
+			if (!imgModel.getImgName().equals("")) {
+				//현재 이미지를 텍스트로 받아와서 가능함...! 실제 이미지 올리는걸로 바꾸게되면 수정요
+				String[] imgList = imgModel.getImgName().split(",");
+				for (String img : imgList) {
+					imgModel.setImgName(img);
+					imgModel.setUserInfo(userModel);
+					imgService.insertImg(imgModel);
+				}
+			}
+			result = "OK";
+
+		} else {
+			result = "FAIL";
+		}
+		
+		return result;
 	}
 	
 	public UserModel userDetail(UserModel userModel) {
