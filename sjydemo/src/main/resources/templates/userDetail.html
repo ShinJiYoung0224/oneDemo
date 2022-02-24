@@ -17,35 +17,52 @@
 	
 	function updateUserAjax(){
 		
-		var userNo = $("#userNo").val();
-		var phone = $("#phone").val();
-		var email = $("#email").val();
-		var imgList = [];
-		imgListLength = $("input[name='imgName']").length;
-		for(var i = 0; i <imgListLength; i++){
-			imgList[i] = $("input[name='imgName']").eq(i).val();
-		}
-		
+		$.fn.serializeObject = function() {
+			  "use strict"
+			  var result = {}
+			  var extend = function(i, element) {
+			    var node = result[element.name]
+			    if ("undefined" !== typeof node && node !== null) {
+			      if ($.isArray(node)) {
+			        node.push(element.value)
+			      } else {
+			        result[element.name] = [node, element.value]
+			      }
+			    } else {
+			      result[element.name] = element.value
+			    }
+			  }
+
+			  $.each(this.serializeArray(), extend)
+			  return result
+			}
+		var obj = $("#fm").serializeObject();
+
 		var regPhone = /^01([0|1|6|7|8|9])-?([0-9]{3,4})-?([0-9]{4})$/;
 		var regEmail = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/;
-		
-		if(email == "") {
+
+		if (obj.email == "") {
 			alert("이메일을 입력해주세요.");
 			$("#email").focus();
 			return;
 		}
-		if(phone == "") {
+		if (obj.name == "") {
+			alert("이름을 입력해주세요.");
+			$("#name").focus();
+			return;
+		}
+		if (obj.phone == "") {
 			alert("휴대폰번호를 입력해주세요.");
 			$("#phone").focus();
 			return;
 		}
-		
-		if(!regEmail.test(email)){
+
+		if (!regEmail.test(obj.email)) {
 			alert("이메일 형식을 확인해주세요.");
 			$("#email").focus();
 			return;
 		}
-		if(!regPhone.test(phone)){
+		if (!regPhone.test(obj.phone)) {
 			alert("휴대폰번호 형식을 확인해주세요.");
 			$("#phone").focus();
 			return;
@@ -55,12 +72,7 @@
 			url : "updateUserAjax",
 			type : "post",
 			dataType : "text",
-			data : {
-				userNo : userNo,
-				phone : phone,
-				email : email,
-				imgName : imgList
-			},
+			data : obj,
 			success : function(data){
 				if(data == "OK"){
 					alert("수정 완료");
@@ -127,7 +139,6 @@ ul{
 	<form id="fm" name="fm" method="post">
 	<input type="hidden" name="userNo" id="userNo" th:value="${user.userNo}">
 	<input type="hidden" name="name" id="name" th:value="${user.name}">
-	<input type="hidden" name="updateYn" id="updateYn" th:value="${updateYn}">
 		<h2 th:text="${user.name}+ ' 상세보기'"></h2>
 		<table>
 			<tr>
