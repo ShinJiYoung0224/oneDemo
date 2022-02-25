@@ -7,7 +7,6 @@
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
 
-	var imgIdx = 0;
 	
 	//휴대폰번호 입력시 하이픈 자동입력
 	$(document).on("keyup", "#phone", 
@@ -88,7 +87,6 @@
 	
 	// 파일추가 클릭 (첨부파일 5개 한정)
 	function addImgBtn(){
-		imgIdx++;
 		var html = '';
 		var liCount = $(".add").length;
 

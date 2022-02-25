@@ -6,10 +6,6 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script type="text/javascript" src="../js/jquery.tmpl.min.js"></script>
 <script>
-	var imgIdx = 0;
-	$(document).ready(function() {
-		addImgBtn();
-	});
 	
 	//휴대폰번호 입력시 하이픈 자동입력
 	$(document).on("keyup", "#phone", 
@@ -19,14 +15,6 @@
 
 
 	function insert(fm) {
-/* 		var email = $("#email").val();
-		var name = $("#name").val();
-		var phone = $("#phone").val();
-		var imgList = [];
-		imgListLength = $("input[name='imgName']").length;
-		for (var i = 0; i < imgListLength; i++) {
-			imgList[i] = $("input[name='imgName']").eq(i).val();
-		} */
 
 		$.fn.serializeObject = function() {
 			  "use strict"
@@ -99,34 +87,36 @@
 	}
 
 	// 파일추가 클릭 (첨부파일 5개 한정)
-	function addImgBtn() {
-		imgIdx++;
+	function addImgBtn(){
 		var html = '';
 		var liCount = $(".add").length;
 
 		// 동적 생성 숫자 한정
-		if (liCount < 5) {
-			html += '<li class="add" id="add'+imgIdx+'">'
-					+ '<div class="attach_img">'
-					+ '<div class="inputImg">'
-					+ '<input type="text" name="imgName" id="imgName'+imgIdx+'" data-idx="'+imgIdx+'">'
-					+ '<input type="button" id="delImg' + imgIdx
-					+ '" value="X" onclick="delImgBtn(' + imgIdx + ')">'
-					+ '</div>' + '</div>' + '</li>';
-			$("#imgArea").append(html);
-		} else {
+		if(liCount < 5){
+			$(imgListTmpl).tmpl().appendTo("#imgArea");
+		}else{
 			alert("최대 5개까지 가능합니다.");
-			return false;
+			return;
 		}
 	}
-
-	function delImgBtn(idx) {
-		if ($(".add").length > 1) {
-			$("#add" + idx).remove();
+	
+	function delImgBtn(obj){
+		 if($(".add").length > 1) {
+			$(obj).parents("li").remove();
 		} else {
-			$("#imgName" + idx).val("");
-		}
+			$("#imgName").val("");
+		} 
 	}
+</script>
+<script id="imgListTmpl" type="text/x-tmpl">
+<li class="add" id="add">
+	<div class="attach_img">
+		<div class="inputImg">
+			<input type="text" name="imgName" id="imgName">
+			<input type="button" id="delImg" value="X" onclick="delImgBtn(this)">
+		</div>
+	</div>
+</li>
 </script>
 <style>
 ul{
@@ -162,9 +152,17 @@ ul{
 		</table>
 		<div>
 			<h5>이미지</h5>
-				<ul id="imgArea">
-					<input type="button" id="addImg" onclick="addImgBtn()" value="+이미지 슬롯 추가">
-				</ul>
+			<ul id="imgArea">
+				<input type="button" id="addImg" onclick="addImgBtn()" value="+이미지 슬롯 추가">
+				<li class="add" id="add">
+					<div class="attach_img">
+						<div class="inputImg">
+							<input type="text" name="imgName" id="imgName"> <input
+								type="button" id="delImg" value="X" onclick="delImgBtn(this)">
+						</div>
+					</div>
+				</li>
+			</ul>
 		</div>
 		<input type="button" value="▶추가하기◀" class="btn" onclick="insert(this.form)">
 		<input type="button" value="리스트로~" class="btn" onclick="location.href='getUserList'">
