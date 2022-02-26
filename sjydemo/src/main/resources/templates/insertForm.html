@@ -86,12 +86,11 @@
 		});
 	}
 
-	// 파일추가 클릭 (첨부파일 5개 한정)
+	// 이미지추가 클릭 (이미지슬롯 5개 한정)
 	function addImgBtn(){
 		var html = '';
 		var liCount = $(".add").length;
 
-		// 동적 생성 숫자 한정
 		if(liCount < 5){
 			$(imgListTmpl).tmpl().appendTo("#imgArea");
 		}else{
@@ -157,8 +156,8 @@ ul{
 				<li class="add" id="add">
 					<div class="attach_img">
 						<div class="inputImg">
-							<input type="text" name="imgName" id="imgName"> <input
-								type="button" id="delImg" value="X" onclick="delImgBtn(this)">
+							<input type="text" name="imgName" id="imgName"> 
+							<input type="button" id="delImg" value="X" onclick="delImgBtn(this)">
 						</div>
 					</div>
 				</li>
