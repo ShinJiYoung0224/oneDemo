@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <title>지영짱</title>
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script type="text/javascript" src="../js/jquery.tmpl.min.js"></script>
 <script>
 
 	
@@ -75,6 +75,7 @@
 			success : function(data){
 				if(data == "OK"){
 					alert("수정 완료");
+					window.location.href = "/getUserList";
 				}else{
 					alert("수정 실패");
 				}
@@ -85,25 +86,15 @@
 		});
 	}
 	
-	// 파일추가 클릭 (첨부파일 5개 한정)
+	// 이미지추가 클릭 (이미지슬롯 5개 한정)
 	function addImgBtn(){
-		var html = '';
 		var liCount = $(".add").length;
 
-		// 동적 생성 숫자 한정
 		if(liCount < 5){
-			html += '<li class="add" id="add">'
-				 + '<div class="attach_img">'
-				 + '<div class="inputImg">'
-				 + '<input type="text" name="imgName" id="imgName">'
-				 + '<input type="button" id="delImg" value="X" onclick="delImgBtn(this)">'
-				 + '</div>'
-				 + '</div>'
-				 + '</li>';
-			$("#imgArea").append(html);
+			$(imgListTmpl).tmpl().appendTo("#imgArea");
 		}else{
 			alert("최대 5개까지 가능합니다.");
-			return false;
+			return;
 		}
 	}
 	
@@ -115,6 +106,16 @@
 		} 
 	}
 		
+</script>
+<script id="imgListTmpl" type="text/x-tmpl">
+<li class="add" id="add">
+	<div class="attach_img">
+		<div class="inputImg">
+			<input type="text" name="imgName" id="imgName">
+			<input type="button" id="delImg" value="X" onclick="delImgBtn(this)">
+		</div>
+	</div>
+</li>
 </script>
 <style>
  .btn {

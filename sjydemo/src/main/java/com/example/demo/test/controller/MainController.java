@@ -1,4 +1,4 @@
-package com.example.demo.controller;
+package com.example.demo.test.controller;
 
 import java.util.List;
 
@@ -10,6 +10,10 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
@@ -32,7 +36,7 @@ public class MainController {
 	private final ImgService imgService;
 
 	// 유저리스트(유저에 해당하는 이미지 리스트까지 가져옴)
-	@RequestMapping("/getUserList")
+	@GetMapping("/getUserList")
 	public ModelAndView getUserList(ModelAndView mv) {
 		List<UserModel> userList;
 		userList = userService.getUserList();
@@ -42,14 +46,14 @@ public class MainController {
 	}
 
 	// 등록 폼
-	@RequestMapping("/insertForm")
+	@GetMapping("/insertForm")
 	public ModelAndView insertForm(ModelAndView mv) {
 		mv.setViewName("insertForm.html");
 		return mv;
 	}
-
+	
 	// 등록
-	@RequestMapping("/insertUser")
+	@PostMapping("/insertUser")
 	@ResponseBody
 	public String insertUser(@Valid UserModel userModel, ImgModel imgModel, BindingResult bindingResult,
 			ModelAndView mv, HttpServletRequest request) {
@@ -60,7 +64,7 @@ public class MainController {
 	}
 
 	// 디테일 및 수정화면
-	@RequestMapping("/userDetail")
+	@GetMapping("/userDetail")
 	public String userDetail(UserModel userModel, Model model, HttpServletRequest request, HttpServletResponse response) {
 		userModel = userService.userDetail(userModel);
 		model.addAttribute("user", userModel);
@@ -69,7 +73,7 @@ public class MainController {
 	}
 
 	// ajax로 유저 정보 업데이트
-	@RequestMapping("updateUserAjax")
+	@PostMapping("updateUserAjax")
 	@ResponseBody
 	public String updateUserAjax(UserModel userModel, ImgModel imgModel) {
 
@@ -90,7 +94,7 @@ public class MainController {
 //	}
 
 	// 유저 삭제 후 유저 이미지 삭제
-	@RequestMapping("deleteUserAndUserImg")
+	@PostMapping("deleteUserAndUserImg")
 	@ResponseBody
 	public String deleteUserAndUserImg(@Param(value="del") String[] del) {
 		
@@ -100,7 +104,7 @@ public class MainController {
 	}
 
 	// 이미지 리스트(각 이미지에 해당하는 유저정보까지 가져옴)
-	@RequestMapping("getImgList")
+	@GetMapping("getImgList")
 	public ModelAndView getImgList(ModelAndView mv) {
 		List<ImgModel> imgList;
 		imgList = imgService.getImgList();
