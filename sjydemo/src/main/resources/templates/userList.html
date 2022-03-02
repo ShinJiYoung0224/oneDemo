@@ -15,10 +15,10 @@
 		fm.action = "deleteUserAndUserImgRef";
 		fm.submit();
 	} */
-	
+
 	function deleteUserAndUserImg(){
 		if(!delCheck()) return;
-		
+
 		$.ajax({
 			url : "deleteUserAndUserImg",
 			type : "post",
@@ -29,15 +29,15 @@
 				window.location.href = "/getUserList";
 			},
 			error : function(request, status, error){
-				alert("삭제 실패")
+				alert("삭제 실패");
 			}
-		
+
 		})
-			
+
 		fm.action = "deleteUserAndUserImg"
 		fm.submit();
 	}
-	
+
 	//del 체크여부
 	function delCheck(){
 		var del = $("input:checkbox[name=del]:checked").length
@@ -63,7 +63,7 @@
 	height: 40px;
 	background-color: yellow;
 	font-size: 18px;
-} 
+}
 </style>
 </head>
 <body>
@@ -83,19 +83,19 @@
 			<td>[[${list.userNo}]] </td>
 			<td>
 			<a th:href="@{userDetail(userNo=${list.userNo})}"> [[${list.name}]]</a>
-			</td>	
+			</td>
 			<td>[[${list.email}]]</td>
 			<td>[[${list.phone}]]</td>
 			<td>
 				<div th:each="imgList, i : ${list.imgList}">
-					[[${i.index +1}]]) 
+					[[${i.index +1}]])
 					imgNo : [[${imgList.imgNo}]] ,
 					imgName : [[${imgList.imgName}]]
 				</div>
 			</td>
 		</tr>
 	</table>
-	
+
 	<input type="button" value="★추가★" class="btn" onclick="location.href='insertForm'">
 	<!-- <input type="button" value="유저 테이블 참조해서 삭제" class="btn" onclick="deleteUserAndUserImgRef(this.form)" style="width:250px"> -->
 	<input type="button" value="유저 삭제 후 이미지 삭제" class="btn" onclick="deleteUserAndUserImg()" style="width:250px">
